@@ -12,11 +12,10 @@ public class Client implements Constants
 {
 	public static void main(String[] args)
 	{
-		/*	
 		try {
 //			ServerHostInterface shi = ClientRPC.getServerInterface();
 		
-			Registry registry = LocateRegistry.getRegistry("76.241.64.118", 2020);
+			Registry registry = LocateRegistry.getRegistry("174.100.38.37", 2020);
 			ServerHostInterface shi = (ServerHostInterface)registry.lookup(SERVER_NAME);
 			
 			shi.checkPlayer("michael", "password");
@@ -27,7 +26,7 @@ public class Client implements Constants
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		LoginWindow.init();
 	}
 }
