@@ -13,12 +13,15 @@ public class Client implements Constants
 	public static void main(String[] args)
 	{
 		try {
-//			ServerHostInterface shi = ClientRPC.getServerInterface();
-		
-			Registry registry = LocateRegistry.getRegistry("174.100.38.37", 2020);
-			ServerHostInterface shi = (ServerHostInterface)registry.lookup(SERVER_NAME);
+//			Registry registry = LocateRegistry.getRegistry("174.100.38.37", 2020);
+//			ServerHostInterface shi = (ServerHostInterface)registry.lookup(SERVER_NAME);
+//			
+//			shi.checkPlayer("michael", "password");
 			
-			shi.checkPlayer("michael", "password");
+			System.setProperty("java.rmi.server.hostname", "174.100.38.37");
+            Registry registry = LocateRegistry.getRegistry("174.100.38.37", 1099);
+            ServerHostInterface shi = (ServerHostInterface)registry.lookup("SERVER_NAME");
+            shi.checkPlayer("michael", "password");
 			
 
 			LoginWindow.init(shi);
