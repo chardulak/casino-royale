@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 import java.awt.Color;
 import java.awt.Container;

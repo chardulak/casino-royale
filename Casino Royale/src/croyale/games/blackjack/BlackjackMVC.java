@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 import javax.swing.JPanel;
 

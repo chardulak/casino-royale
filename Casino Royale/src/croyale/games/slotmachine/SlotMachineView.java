@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.slotmachine;
 
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

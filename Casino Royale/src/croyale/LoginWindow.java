@@ -1,6 +1,5 @@
 package croyale;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -24,12 +23,11 @@ import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import javax.swing.Box;
 
-import croyale.games.BlackjackMVC;
-import croyale.games.SlotMachineMVC;
+import croyale.games.blackjack.BlackjackMVC;
+import croyale.games.slotmachine.SlotMachineMVC;
 import croyale.rpc.ServerHostInterface;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
-
 
 public class LoginWindow extends JFrame implements ActionListener{
 	private int UserID;
