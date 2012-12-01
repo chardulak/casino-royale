@@ -14,7 +14,9 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 	
 	public ServerHost(Database db) throws RemoteException
 	{
+		super(1099);
 		this.db = db;
+		
 	}
 	
 	public double getUserBalance(int user_id) throws RemoteException
