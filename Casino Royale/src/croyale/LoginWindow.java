@@ -171,19 +171,19 @@ public class LoginWindow extends JFrame implements ActionListener{
 			try{
 				//System.out.println(dbf.connectDBase());
 				//UserID = dbf.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
-			//	UserID = shi.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
-		//		if(UserID >0){
+				UserID = shi.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
+				if(UserID > 0){
 //					MenuWindow mw = new MenuWindow(UserID);
 //					mw.setVisible(true);
 					setGameScreen();
-		//		}else{
-			//		JOptionPane.showMessageDialog(null,"You are not Reigistred.","Error Message", JOptionPane.ERROR_MESSAGE);
-				//	UserID=0;
+				}else{
+					JOptionPane.showMessageDialog(null,"You are not Reigistred.","Error Message", JOptionPane.ERROR_MESSAGE);
+					UserID=0;
 				}
+			}
 			catch(Exception e1){
 				System.out.println(e1.toString());
 			}
-			
 		}
 		else if(e.getSource() == RegistrationButton){
 			RegistrationWindow rw = new RegistrationWindow(UserID, shi);
@@ -194,7 +194,6 @@ public class LoginWindow extends JFrame implements ActionListener{
 			RegistrationWindow rw = new RegistrationWindow();
 			rw.setVisible(true);
 		}
-
 	}
 	private void setGameScreen(){
 		// Set background image

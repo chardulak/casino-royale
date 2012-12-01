@@ -17,7 +17,6 @@ import javax.swing.BoxLayout;
 
 import croyale.rpc.ServerHostInterface;
 
-
 public class RegistrationWindow extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JPanel labelPanel,fieldsPanel;
@@ -270,8 +269,6 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		}catch(Exception e1){
 			System.out.println(e1.toString());
 		}
-		
-		
 	}
 	private void updatePlayer(){
 		//Database dbf = new Database();
@@ -297,9 +294,6 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		}
 	}
 	public void actionPerformed(ActionEvent e){
-		
-		
-		
 		if(e.getSource() == OkButton){
 			
 			if(checkFields() == true){

@@ -1,4 +1,3 @@
-
 package croyale;
 
 import java.sql.*;
@@ -55,7 +54,6 @@ public class Database {
 		cmst.setString(8,_email);
 		cmst.setString(9,_balance);
 		cmst.execute();
-		
 	}
 	public double getBalance(int _userid)throws SQLException{
 		java.sql.ResultSet rs = null;
@@ -78,8 +76,6 @@ public class Database {
 		cmst.setInt(1,_userid);
 		cmst.setString(2,_balance);
 		cmst.execute();
-		
-		
 	}
 }
 
