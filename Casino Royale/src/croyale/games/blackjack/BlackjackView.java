@@ -249,6 +249,8 @@ public class BlackjackView{
 		winLoseBar.add(Box.createHorizontalStrut(277));
 
 		newGameButton.setVisible(true);
+		hitButton.setEnabled(false);
+		standButton.setEnabled(false);
 		winLoseBar.revalidate();
     }
     
@@ -263,6 +265,8 @@ public class BlackjackView{
 		winLoseBar.add(Box.createHorizontalStrut(277));
 
 		newGameButton.setVisible(true);
+		hitButton.setEnabled(false);
+		standButton.setEnabled(false);
 		winLoseBar.revalidate();
     	
     }
@@ -280,6 +284,8 @@ public class BlackjackView{
 		winLoseBar.add(Box.createHorizontalStrut(277));
 
 		newGameButton.setVisible(false);
+		hitButton.setEnabled(true);
+		standButton.setEnabled(true);
 		winLoseBar.revalidate();
     	
     }
