@@ -28,6 +28,9 @@ public class ClientSecurity
 		key_agree.generateSecretKey(server_key);
 		secret_key = key_agree.getSecretKey();
 		
+		System.out.println("Client public key: " + toHexString(key_agree.getPublicKeyEncoded()));
+		System.out.println("Server public key: " + toHexString(server_key));
+		
 		System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 	}
 	

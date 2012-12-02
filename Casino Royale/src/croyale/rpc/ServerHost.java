@@ -31,6 +31,9 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		key_agree.generateSecretKey(public_key);
 		secret_key = key_agree.getSecretKey();
 		
+		System.out.println("Client public key: " + toHexString(client_key));
+		System.out.println("Server public key: " + toHexString(public_key));
+		
 		System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 		
 		return public_key;
