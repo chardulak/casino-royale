@@ -47,7 +47,9 @@ public class ClientSecurity
 	
 	public int checkPlayer(String user_id, String password) throws RemoteException
 	{
+		System.out.println("Calling checkPlayer method");
 		try {
+			System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
 			SealedObject sealed_password = CRCipher.encrypt(secret_key, password);
 			return shi.checkPlayer(sealed_user_id, sealed_password);

@@ -58,6 +58,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 	{
 		System.out.println("Calling check player method");
 		try {
+			System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 			String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
 			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
 			
