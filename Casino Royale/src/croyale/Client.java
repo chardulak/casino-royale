@@ -19,6 +19,8 @@ public class Client implements Constants
 			ClientSecurity cs = new ClientSecurity(shi);
 			cs.doKeyAgree();
 			
+			cs.checkPlayer("michael", "password");
+			
 			LoginWindow.init(cs);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
