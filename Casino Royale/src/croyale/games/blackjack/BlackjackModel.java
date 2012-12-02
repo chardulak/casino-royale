@@ -65,7 +65,7 @@ public class BlackjackModel {
 		myHand.addCard(deck.dealCard());
 		return myHand;
 	}
-	public Hand[] deal(){   
+	public int deal(){   
 
 	      deck = new Deck();
 	      dealerHand = new BlackjackHand();
@@ -84,13 +84,14 @@ public class BlackjackModel {
 	      //   The player with Blackjack wins the game.  Dealer wins ties.
 
 
-	    /*  if (dealerHand.getBlackjackValue() == 21) {
+	      if (dealerHand.getBlackjackValue() == 21) {
 	           System.out.println("Dealer has the " + dealerHand.getCard(0)
 	                                   + " and the " + dealerHand.getCard(1) + ".");
 	           System.out.println("User has the " + userHand.getCard(0)
 	                                     + " and the " + userHand.getCard(1) + ".");
 	           System.out.println();
 	           System.out.println("Dealer has Blackjack.  Dealer wins.");
+	           return -1;
 	      }
 	      
 	      if (userHand.getBlackjackValue() == 21) {
@@ -100,14 +101,14 @@ public class BlackjackModel {
 	                                     + " and the " + userHand.getCard(1) + ".");
 	           System.out.println();
 	           System.out.println("You have Blackjack.  You win.");
+	           return 1;
 	      }
-	      */
+	      
 	      //  If neither player has Blackjack, play the game.  First the user 
 	      //    gets a chance to draw cards (i.e., to "Hit").  The while loop ends 
 	      //    when the user chooses to "Stand".  If the user goes over 21,
 	      //    the user loses immediately.
-	      Hand hands[] = {userHand,dealerHand};
-	      return hands;
+	      return 0;
 	     }
 	}
 	/*public void wager(){   

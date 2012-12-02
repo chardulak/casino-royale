@@ -23,7 +23,14 @@ public class BlackjackController {
 		view.addStandListener(new StandListener ());
 		view.addBetListener(new BetListener());
 		view.addNewGameListener(new NewGameListener());
-		view.displayCards(model.deal());
+		int winner = model.deal();
+		if (winner == 1){
+			view.drawWin();
+		}
+		else if (winner == -1){
+			view.drawLose();
+		}
+		view.displayCards(model.getHands());
 	}
 	private class HitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
@@ -32,6 +39,9 @@ public class BlackjackController {
 				view.displayCards(model.getHands());
 		         if (model.getUserHand().getBlackjackValue() > 21) {
 		        	 view.drawLose();
+		         }
+		         else if (model.getUserHand().getBlackjackValue() == 21){
+		        	 view.standButton.doClick();
 		         }
 			}catch (Exception e2){
 				;
@@ -80,7 +90,14 @@ public class BlackjackController {
 	private class NewGameListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.reset();
-			view.displayCards(model.deal());
+			int winner = model.deal();
+			if (winner == 1){
+				view.drawWin();
+			}
+			else if (winner == -1){
+				view.drawLose();
+			}
+			view.displayCards(model.getHands());
 		}
 	}
 	private class BetListener implements ActionListener {
