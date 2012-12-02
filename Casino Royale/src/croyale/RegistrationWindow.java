@@ -17,12 +17,14 @@ import javax.swing.BoxLayout;
 
 import croyale.rpc.ServerHostInterface;
 import croyale.security.ClientSecurity;
+import croyale.security.digest.SHA256Digest;
+import croyale.util.ToHexString;
 
 public class RegistrationWindow extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JPanel labelPanel,fieldsPanel;
 	private String labels[] = {"UserID","Password","First Name","Last Name","Balance","Address","Phone","Email"};
-	private JTextField UserIDBox,PaswordBox,FirstNameBox,LastNameBox,BalanceBox,AddressBox,PhoneBox,EmailBox;
+	private JTextField UserIDBox,PasswordBox,FirstNameBox,LastNameBox,BalanceBox,AddressBox,PhoneBox,EmailBox;
 	private int UserID=0;
 	private JButton OkButton,CancelButton;
 //	private Database dbf = new Database();
@@ -94,9 +96,9 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		PasswordPanel.add(Box.createHorizontalStrut(3));
 								
 		// Password Text Field Input area
-		PaswordBox = new JTextField(20);
-		PaswordBox.setText("");
-		PasswordPanel.add(PaswordBox);
+		PasswordBox = new JTextField(20);
+		PasswordBox.setText("");
+		PasswordPanel.add(PasswordBox);
 		registerForm.add(PasswordPanel);
 		registerForm.add(Box.createVerticalStrut(20));
 				
@@ -210,7 +212,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		if(UserIDBox.getText().trim().length() == 0){
 			flg = false;
 		}
-		if(PaswordBox.getText().trim().length() == 0){
+		if(PasswordBox.getText().trim().length() == 0){
 			flg = false;
 		}
 		if(FirstNameBox.getText().trim().length() == 0){
@@ -260,7 +262,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 				FirstNameBox.setText(player.getFirstName());
 				LastNameBox.setText(player.getLastName());
 				UserIDBox.setText(Integer.toString(player.getUserID()));
-				PaswordBox.setText(player.getPassword());
+				PasswordBox.setText(player.getPassword());
 				BalanceBox.setText(Double.toString(player.getBalance()));
 				AddressBox.setText(player.getAddress());
 				PhoneBox.setText(player.getPhone());
@@ -270,7 +272,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 //				FirstNameBox.setText(rs.getString(2).trim());
 //				LastNameBox.setText(rs.getString(3).trim());
 //				UserIDBox.setText(rs.getString(4).trim());
-//				PaswordBox.setText(rs.getString(5).trim());
+//				PasswordBox.setText(rs.getString(5).trim());
 //				BalanceBox.setText(rs.getString(6).trim());
 //				AddressBox.setText(rs.getString(7).trim());
 //				PhoneBox.setText(rs.getString(8).trim());
@@ -292,11 +294,11 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 //			System.out.println(dbf.connectDBase());
 			try{
 				System.out.println("User ID 3 "+ UserID);
-//				dbf.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PaswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
-				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PaswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
+//				dbf.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
+				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),ToHexString.toHexString(SHA256Digest.digest(PasswordBox.getText())),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
 				if(UserID == 0){
-//					UserID = dbf.checkPlayer(UserIDBox.getText(),PaswordBox.getText());
-					UserID = cs.checkPlayer(UserIDBox.getText(),PaswordBox.getText());
+//					UserID = dbf.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
+					UserID = cs.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
 					msg="Your account has been set up. Please login to play the games";
 				}
 				JOptionPane.showMessageDialog(null,msg,"Casino", JOptionPane.INFORMATION_MESSAGE);

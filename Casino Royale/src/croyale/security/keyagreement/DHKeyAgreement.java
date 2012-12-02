@@ -23,6 +23,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import croyale.util.ToHexString;
+
 public class DHKeyAgreement
 {
 	// The 1024 bit Diffie-Hellman modulus values
@@ -83,8 +85,8 @@ public class DHKeyAgreement
 		serverKeyAgree.generateSecretKey(clientPubKeyEnc);
 		clientKeyAgree.generateSecretKey(serverPubKeyEnc);
 		
-		System.out.println("Server secret key: " + toHexString(serverKeyAgree.getSecretKey().getEncoded()));
-		System.out.println("Client secret key: " + toHexString(clientKeyAgree.getSecretKey().getEncoded()));
+		System.out.println("Server secret key: " + ToHexString.toHexString(serverKeyAgree.getSecretKey().getEncoded()));
+		System.out.println("Client secret key: " + ToHexString.toHexString(clientKeyAgree.getSecretKey().getEncoded()));
 		
 		
 		// Example encryption using byte array
@@ -103,8 +105,8 @@ public class DHKeyAgreement
 			byte[] ciphertext = server_enc_cipher.doFinal(plaintext);
 			byte[] decrypted = client_dec_cipher.doFinal(ciphertext);
 			
-			System.out.println("Original text:  " + toHexString(plaintext));
-			System.out.println("Decrypted text: " + toHexString(decrypted));
+			System.out.println("Original text:  " + ToHexString.toHexString(plaintext));
+			System.out.println("Decrypted text: " + ToHexString.toHexString(decrypted));
 		} catch (IllegalBlockSizeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -242,28 +244,5 @@ public class DHKeyAgreement
 	public SecretKey getSecretKey()
 	{
 		return secretKey;
-	}
-
-	// Converts a byte to hex digit and writes to the supplied buffer
-	private static void byte2hex(byte b, StringBuffer buf) {
-		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-		int high = ((b & 0xf0) >> 4);
-		int low = (b & 0x0f);
-		buf.append(hexChars[high]);
-		buf.append(hexChars[low]);
-	}
-	
-	// Converts a byte array to hex string
-	private static String toHexString(byte[] block) {
-		StringBuffer buf = new StringBuffer();
-		int len = block.length;
-		
-		for (int i = 0; i < len; i++) {
-			byte2hex(block[i], buf);
-			if (i < len-1) {
-				buf.append(":");
-			}
-		} 
-		return buf.toString();
 	}
 }

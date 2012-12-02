@@ -8,6 +8,7 @@ import javax.crypto.SecretKey;
 import croyale.Player;
 import croyale.rpc.ServerHostInterface;
 import croyale.security.keyagreement.DHKeyAgreement;
+import croyale.util.ToHexString;
 
 public class ClientSecurity
 {
@@ -28,10 +29,10 @@ public class ClientSecurity
 		key_agree.generateSecretKey(server_key);
 		secret_key = key_agree.getSecretKey();
 		
-		System.out.println("Client public key: " + toHexString(key_agree.getPublicKeyEncoded()));
-		System.out.println("Server public key: " + toHexString(server_key));
+		System.out.println("Client public key: " + ToHexString.toHexString(key_agree.getPublicKeyEncoded()));
+		System.out.println("Server public key: " + ToHexString.toHexString(server_key));
 		
-		System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
+		System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
 	}
 	
 	public double getUserBalance(int user_id) throws RemoteException
@@ -49,7 +50,7 @@ public class ClientSecurity
 	{
 		System.out.println("Calling checkPlayer method");
 		try {
-			System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
+			System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
 			SealedObject sealed_password = CRCipher.encrypt(secret_key, password);
 			return (int)CRCipher.decrypt(secret_key, shi.checkPlayer(sealed_user_id, sealed_password));
@@ -97,28 +98,5 @@ public class ClientSecurity
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	// Converts a byte to hex digit and writes to the supplied buffer
-	private static void byte2hex(byte b, StringBuffer buf) {
-		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-		int high = ((b & 0xf0) >> 4);
-		int low = (b & 0x0f);
-		buf.append(hexChars[high]);
-		buf.append(hexChars[low]);
-	}
-	
-	// Converts a byte array to hex string
-	private static String toHexString(byte[] block) {
-		StringBuffer buf = new StringBuffer();
-		int len = block.length;
-		
-		for (int i = 0; i < len; i++) {
-			byte2hex(block[i], buf);
-			if (i < len-1) {
-				buf.append(":");
-			}
-		} 
-		return buf.toString();
 	}
 }
