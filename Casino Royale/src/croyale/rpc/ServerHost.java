@@ -2,7 +2,6 @@ package croyale.rpc;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.ResultSet;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
@@ -39,7 +38,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		return public_key;
 	}
 	
-	public double getUserBalance(SealedObject sealed_user_id) throws RemoteException
+	public SealedObject getUserBalance(SealedObject sealed_user_id) throws RemoteException
 	{
 		System.out.println("Calling getUserBalance method");
 		try {
@@ -47,27 +46,26 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 			
 			System.out.println("\tUser id: " + user_id);
 			
-			return db.getBalance(user_id);
+			return CRCipher.encrypt(secret_key, db.getBalance(user_id));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 	}
 	
-	public int checkPlayer(SealedObject sealed_user_id, SealedObject sealed_password)throws RemoteException
+	public SealedObject checkPlayer(SealedObject sealed_user_id, SealedObject sealed_password)throws RemoteException
 	{
 		System.out.println("Calling check player method");
 		try {
-			System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 			String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
 			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
 			
 			System.out.println("\tUser id: " + user_id + " Password: " + password);
 			
-			return db.checkPlayer(user_id, password);
+			return CRCipher.encrypt(secret_key, db.checkPlayer(user_id, password));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 	}
 	
@@ -118,7 +116,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		}
 	}
 	
-	public ResultSet getPlayer(SealedObject sealed_id) throws RemoteException
+	public SealedObject getPlayer(SealedObject sealed_id) throws RemoteException
 	{
 		System.out.println("Calling getPlayer method");
 		try {
@@ -126,7 +124,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 			
 			System.out.println("\tID: " + id);
 			
-			return db.getPlayer(id);
+			return CRCipher.encrypt(secret_key, db.getPlayer(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

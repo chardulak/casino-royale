@@ -36,11 +36,23 @@ public class Database {
 		}
 		return id;
 	}
-	public java.sql.ResultSet getPlayer(int _id)throws SQLException{
+//	public java.sql.ResultSet getPlayer(int _id)throws SQLException{
+//		CallableStatement cmst = conn.prepareCall("{call getPlayer(?)}");
+//		cmst.setInt(1,_id);
+//		cmst.execute();
+//		return cmst.getResultSet();
+//	}
+	public Player getPlayer(int _id)throws SQLException{
 		CallableStatement cmst = conn.prepareCall("{call getPlayer(?)}");
 		cmst.setInt(1,_id);
 		cmst.execute();
-		return cmst.getResultSet();
+		
+		
+		ResultSet rs = cmst.getResultSet();
+		
+		Player player = new Player(rs.getString(2).trim(), rs.getString(3).trim(), Integer.parseInt(rs.getString(4).trim()), rs.getString(5).trim(), Integer.parseInt(rs.getString(6).trim()), rs.getString(7).trim(), rs.getString(8).trim(), rs.getString(9).trim());
+		
+		return player;
 	}
 	public void setPlayer(int _id,String _firstname,String _lastname,String _userid,String _password,String _address,String _phone,String _email,String _balance)throws SQLException{
 		CallableStatement cmst = conn.prepareCall("{call setPlayer(?,?,?,?,?,?,?,?,?)}");

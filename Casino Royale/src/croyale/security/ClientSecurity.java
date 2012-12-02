@@ -1,11 +1,11 @@
 package croyale.security;
 
 import java.rmi.RemoteException;
-import java.sql.ResultSet;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
+import croyale.Player;
 import croyale.rpc.ServerHostInterface;
 import croyale.security.keyagreement.DHKeyAgreement;
 
@@ -38,7 +38,7 @@ public class ClientSecurity
 	{
 		try {
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
-			return shi.getUserBalance(sealed_user_id);
+			return (double)CRCipher.decrypt(secret_key, shi.getUserBalance(sealed_user_id));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -52,7 +52,7 @@ public class ClientSecurity
 			System.out.println("Secret key: " + toHexString(secret_key.getEncoded()));
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
 			SealedObject sealed_password = CRCipher.encrypt(secret_key, password);
-			return shi.checkPlayer(sealed_user_id, sealed_password);
+			return (int)CRCipher.decrypt(secret_key, shi.checkPlayer(sealed_user_id, sealed_password));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -88,11 +88,11 @@ public class ClientSecurity
 		}
 	}
 	
-	public ResultSet getPlayer(int id) throws RemoteException
+	public Player getPlayer(int id) throws RemoteException
 	{
 		try {
 			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
-			return shi.getPlayer(sealed_id);
+			return (Player)CRCipher.decrypt(secret_key, shi.getPlayer(sealed_id));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

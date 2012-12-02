@@ -242,7 +242,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 	//}
 	private void fillFields(){
 		//Database dbf = new Database();
-		java.sql.ResultSet rs = null;
+//		java.sql.ResultSet rs = null;
 		
 		System.out.println("fillFields " + UserID);
 		
@@ -250,17 +250,31 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 //			System.out.println(dbf.connectDBase());
 			try{
 //				rs = dbf.getPlayer(UserID);
-				rs = cs.getPlayer(UserID);
-				rs.next();
+				
+				
+//				rs = cs.getPlayer(UserID);
+//				rs.next();
+				
+				Player player = cs.getPlayer(UserID);
+				
+				FirstNameBox.setText(player.getFirstName());
+				LastNameBox.setText(player.getLastName());
+				UserIDBox.setText(Integer.toString(player.getUserID()));
+				PaswordBox.setText(player.getPassword());
+				BalanceBox.setText(Double.toString(player.getBalance()));
+				AddressBox.setText(player.getAddress());
+				PhoneBox.setText(player.getPhone());
+				EmailBox.setText(player.getEmail());
+				
 				//FirstNameBox.setText(rs.getString(2).toString());
-				FirstNameBox.setText(rs.getString(2).trim());
-				LastNameBox.setText(rs.getString(3).trim());
-				UserIDBox.setText(rs.getString(4).trim());
-				PaswordBox.setText(rs.getString(5).trim());
-				BalanceBox.setText(rs.getString(6).trim());
-				AddressBox.setText(rs.getString(7).trim());
-				PhoneBox.setText(rs.getString(8).trim());
-				EmailBox.setText(rs.getString(9).trim());
+//				FirstNameBox.setText(rs.getString(2).trim());
+//				LastNameBox.setText(rs.getString(3).trim());
+//				UserIDBox.setText(rs.getString(4).trim());
+//				PaswordBox.setText(rs.getString(5).trim());
+//				BalanceBox.setText(rs.getString(6).trim());
+//				AddressBox.setText(rs.getString(7).trim());
+//				PhoneBox.setText(rs.getString(8).trim());
+//				EmailBox.setText(rs.getString(9).trim());
 				
 			}catch(Exception e2){
 				JOptionPane.showMessageDialog(null,"You are not Registered.","Error Message", JOptionPane.ERROR_MESSAGE);
