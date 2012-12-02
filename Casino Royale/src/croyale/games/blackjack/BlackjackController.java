@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +29,7 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e){
 			try{
 				model.dealOneCard(model.getUserHand());
+				view.displayCards(model.getHands());
 		         if (model.getUserHand().getBlackjackValue() > 21) {
 		        	 view.drawLose();
 		         }
@@ -49,6 +50,7 @@ public class BlackjackController {
 
 					while (model.getDealerHand().getBlackjackValue() <= 16) {
 						 model.dealOneCard(model.getDealerHand());
+						 view.displayCards(model.getHands());
 				         if (model.getDealerHand().getBlackjackValue() > 21) {
 				           // Dealer busted by going over 21.  You win.
 				        	model.setUserWins(true);

@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -218,17 +218,23 @@ public class BlackjackView{
     }
     
     public void displayCards(Hand[] hands){
-    	for (int i=0;i<hands[0].getCardCount();i++){
+    	yourCards.removeAll();
+    	yourCards.revalidate();
+    	yourCards.repaint();
+    	dealerCards.removeAll();
+    	dealerCards.revalidate();
+    	dealerCards.repaint();
+    	for (int i=hands[0].getCardCount()-1;i>=0;i--){
     		JLabel currentCard = hands[0].getCard(i).getImage();
-    		yourCards.add(currentCard,30-i);
-    		currentCard.setBounds(50-(i*15),0,72,96);
+    		yourCards.add(currentCard,20-i);
+    		currentCard.setBounds(i*15,0,72,96);
     		
     	}
 
-    	for (int j=0;j<hands[1].getCardCount();j++){
+    	for (int j=hands[1].getCardCount()-1;j>=0;j--){
     		JLabel currentCard = hands[1].getCard(j).getImage();
     		dealerCards.add(currentCard,30-j);
-    		currentCard.setBounds(50-j*15,0,72,96);
+    		currentCard.setBounds(j*15,0,72,96);
     	}
     }
     

@@ -1,4 +1,4 @@
-package croyale.games;
+package croyale.games.blackjack;
 
 //import java.lang.reflect.InvocationTargetException;
 
@@ -21,6 +21,10 @@ public class BlackjackModel {
 	public BlackjackModel() {
 		reset();
 	}
+	public Hand[] getHands(){
+        Hand hands[] = {userHand,dealerHand};
+        return hands;
+   }
 	public boolean getUserWins(){
 		return userWins;
 	}
