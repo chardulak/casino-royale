@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 
 import croyale.rpc.ServerHostInterface;
+import croyale.security.ClientSecurity;
 
 public class RegistrationWindow extends JFrame implements ActionListener {
 	private JPanel contentPane;
@@ -25,7 +26,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 	private int UserID=0;
 	private JButton OkButton,CancelButton;
 //	private Database dbf = new Database();
-	ServerHostInterface shi;
+	private ClientSecurity cs;
 	
 	public RegistrationWindow() {
 		UserID=0;
@@ -34,8 +35,8 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		setWindow();
 		//fillFields();
 	}
-	public RegistrationWindow(int _id, ServerHostInterface shi) {
-		this.shi = shi;
+	public RegistrationWindow(int _id, ClientSecurity cs) {
+		this.cs = cs;
 		
 		UserID = _id;
 		System.out.println("A");
@@ -249,7 +250,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 //			System.out.println(dbf.connectDBase());
 			try{
 //				rs = dbf.getPlayer(UserID);
-				rs = shi.getPlayer(UserID);
+				rs = cs.getPlayer(UserID);
 				rs.next();
 				//FirstNameBox.setText(rs.getString(2).toString());
 				FirstNameBox.setText(rs.getString(2).trim());
@@ -278,10 +279,10 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 			try{
 				System.out.println("User ID 3 "+ UserID);
 //				dbf.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PaswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
-				shi.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PaswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
+				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PaswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
 				if(UserID == 0){
 //					UserID = dbf.checkPlayer(UserIDBox.getText(),PaswordBox.getText());
-					UserID = shi.checkPlayer(UserIDBox.getText(),PaswordBox.getText());
+					UserID = cs.checkPlayer(UserIDBox.getText(),PaswordBox.getText());
 					msg="Your account has been set up. Please login to play the games";
 				}
 				JOptionPane.showMessageDialog(null,msg,"Casino", JOptionPane.INFORMATION_MESSAGE);

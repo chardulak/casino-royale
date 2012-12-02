@@ -26,6 +26,7 @@ import javax.swing.Box;
 import croyale.games.blackjack.BlackjackMVC;
 import croyale.games.slotmachine.SlotMachineMVC;
 import croyale.rpc.ServerHostInterface;
+import croyale.security.ClientSecurity;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
 
@@ -46,16 +47,16 @@ public class LoginWindow extends JFrame implements ActionListener{
 	private JPanel gameContainer;
 	private static LoginWindow frame;
 	
-	private ServerHostInterface shi;
+	private ClientSecurity cs;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void init(final ServerHostInterface shi) {
+	public static void init(final ClientSecurity cs) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new LoginWindow(shi);
+					frame = new LoginWindow(cs);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 								
 					int windowWidth = 1280;
@@ -91,8 +92,8 @@ public class LoginWindow extends JFrame implements ActionListener{
 			}
 		});
 	}
-	public LoginWindow(ServerHostInterface shi) {
-		this.shi = shi;
+	public LoginWindow(ClientSecurity cs) {
+		this.cs = cs;
 		setScreen();
 	}
 	public LoginWindow() {
@@ -169,7 +170,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			try{
 				//System.out.println(dbf.connectDBase());
 				//UserID = dbf.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
-				UserID = shi.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
+				UserID = cs.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
 				if(UserID > 0){
 //					MenuWindow mw = new MenuWindow(UserID);
 //					mw.setVisible(true);
@@ -184,7 +185,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			}
 		}
 		else if(e.getSource() == RegistrationButton){
-			RegistrationWindow rw = new RegistrationWindow(UserID, shi);
+			RegistrationWindow rw = new RegistrationWindow(UserID, cs);
 			rw.setVisible(true);
 			//this.dispose();
 		}
