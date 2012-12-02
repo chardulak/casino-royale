@@ -28,7 +28,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		System.out.println("Calling doKeyAgree method");
 		DHKeyAgreement key_agree = new DHKeyAgreement();
 		byte[] public_key = key_agree.getPublicKeyEncoded();
-		key_agree.generateSecretKey(public_key);
+		key_agree.generateSecretKey(client_key);
 		secret_key = key_agree.getSecretKey();
 		
 		System.out.println("Client public key: " + toHexString(client_key));
