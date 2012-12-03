@@ -30,7 +30,8 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 //	private Database dbf = new Database();
 	private ClientSecurity cs;
 	
-	public RegistrationWindow() {
+	public RegistrationWindow(ClientSecurity cs) {
+		this.cs= cs;
 		UserID=0;
 		//System.out.println("UserID aa " + UserID);
 		System.out.println("B");

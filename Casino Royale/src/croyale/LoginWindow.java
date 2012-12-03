@@ -184,13 +184,13 @@ public class LoginWindow extends JFrame implements ActionListener{
 				System.out.println(e1.toString());
 			}
 		}
-		else if(e.getSource() == RegistrationButton){
-			RegistrationWindow rw = new RegistrationWindow(UserID, cs);
-			rw.setVisible(true);
-			//this.dispose();
-		}
+		//else if(e.getSource() == RegistrationButton){
+		//	RegistrationWindow rw = new RegistrationWindow(UserID, cs);
+		//	rw.setVisible(true);
+		//	//this.dispose();
+		//}
 		else{
-			RegistrationWindow rw = new RegistrationWindow();
+			RegistrationWindow rw = new RegistrationWindow(cs);
 			rw.setVisible(true);
 		}
 	}
@@ -316,7 +316,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					RegistrationWindow rw = new RegistrationWindow();
+					RegistrationWindow rw = new RegistrationWindow(UserID,cs);
 					rw.setVisible(true);
 				} 
 				catch (Exception ee) {
