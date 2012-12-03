@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 
 import croyale.Player;
 import croyale.rpc.ServerHostInterface;
+import croyale.security.digest.SHA256Digest;
 import croyale.security.keyagreement.DHKeyAgreement;
 import croyale.util.ToHexString;
 
@@ -52,7 +53,7 @@ public class ClientSecurity
 		try {
 			System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
-			SealedObject sealed_password = CRCipher.encrypt(secret_key, password);
+			SealedObject sealed_password = CRCipher.encrypt(secret_key, ToHexString.toHexString(SHA256Digest.digest(password)));
 			return (int)CRCipher.decrypt(secret_key, shi.checkPlayer(sealed_user_id, sealed_password));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,7 +79,7 @@ public class ClientSecurity
 			SealedObject sealed_firstname = CRCipher.encrypt(secret_key, firstname);
 			SealedObject sealed_lastname = CRCipher.encrypt(secret_key, lastname);
 			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
-			SealedObject sealed_password = CRCipher.encrypt(secret_key, password);
+			SealedObject sealed_password = CRCipher.encrypt(secret_key, ToHexString.toHexString(SHA256Digest.digest(password)));
 			SealedObject sealed_address = CRCipher.encrypt(secret_key, address);
 			SealedObject sealed_phone = CRCipher.encrypt(secret_key, phone);;
 			SealedObject sealed_email = CRCipher.encrypt(secret_key, email);

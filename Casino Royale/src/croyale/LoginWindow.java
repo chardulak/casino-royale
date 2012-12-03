@@ -172,7 +172,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			try{
 				//System.out.println(dbf.connectDBase());
 				//UserID = dbf.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
-				UserID = cs.checkPlayer(UserIDBox.getText(), ToHexString.toHexString(SHA256Digest.digest(PasswordBox.getText())));
+				UserID = cs.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
 				if(UserID > 0){
 //					MenuWindow mw = new MenuWindow(UserID);
 //					mw.setVisible(true);

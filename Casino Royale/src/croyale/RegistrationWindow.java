@@ -296,7 +296,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 			try{
 				System.out.println("User ID 3 "+ UserID);
 //				dbf.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
-				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),ToHexString.toHexString(SHA256Digest.digest(PasswordBox.getText())),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
+				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
 				if(UserID == 0){
 //					UserID = dbf.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
 					UserID = cs.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
