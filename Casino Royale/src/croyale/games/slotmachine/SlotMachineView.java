@@ -2,11 +2,15 @@ package croyale.games.slotmachine;
 
 
 import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 import croyale.util.ImagePanel;
 
 import java.awt.*;
-
+import java.awt.BorderLayout;
 
 public class SlotMachineView extends JPanel
 {
@@ -23,7 +27,11 @@ public class SlotMachineView extends JPanel
 	private JButton reel2;
 	private JButton reel3;
 
-//	private BufferedImage buttonIcon;
+    JLabel imageLabel1 = new JLabel();
+    JLabel imageLabel2 = new JLabel();
+    JLabel imageLabel3 = new JLabel();
+
+    //	private BufferedImage buttonIcon;
 
 //	protected JLayeredPane ree11;
 //	protected JLayeredPane reel2;
@@ -60,13 +68,21 @@ public class SlotMachineView extends JPanel
 		reel3 = new JButton("Reel3");
 		reel3.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-		reelSpinners.add(reel1);
-		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
-		reelSpinners.add(reel2);
-		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
-		reelSpinners.add(reel3);
+		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/spin.gif");
 
-		mainPane.add(reelSpinners);
+		imageLabel1.setIcon(ii1);
+        imageLabel2.setIcon(ii2);
+        imageLabel3.setIcon(ii3);
+
+        reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
+        reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
+        reelSpinners.add(imageLabel3, java.awt.BorderLayout.CENTER);
+
+        mainPane.add(reelSpinners);
 
 		contentPane.add(mainPane);
 		contentPane.revalidate();
