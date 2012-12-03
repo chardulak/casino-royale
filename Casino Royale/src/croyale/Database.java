@@ -49,9 +49,13 @@ public class Database {
 		
 		
 		ResultSet rs = cmst.getResultSet();
-		
-		Player player = new Player(rs.getString(2).trim(), rs.getString(3).trim(), Integer.parseInt(rs.getString(4).trim()), rs.getString(5).trim(), Integer.parseInt(rs.getString(6).trim()), rs.getString(7).trim(), rs.getString(8).trim(), rs.getString(9).trim());
-		
+		Player player;
+		if (rs.next()){
+			player = new Player(Integer.parseInt(rs.getString(1).trim()), rs.getString(2).trim(), rs.getString(3).trim(), rs.getString(4).trim(), rs.getString(5).trim(), Double.parseDouble(rs.getString(6).trim()), rs.getString(7).trim(), rs.getString(8).trim(), rs.getString(9).trim());
+		}
+		else {
+			player = new Player(0 ,"FName", "LName", "aaa", "pwd", 1234567890, "1234 Some Road", "uhuhilikeit", "name@domain");
+		}
 		return player;
 	}
 	public void setPlayer(int _id,String _firstname,String _lastname,String _userid,String _password,String _address,String _phone,String _email,String _balance)throws SQLException{
