@@ -18,7 +18,7 @@ public class SlotMachineView extends JPanel
 	private JPanel reelSpinners;
 //	private JPanel controls;
 	
-	private JButton leverButton;
+	public JButton leverButton;
 	
 	private JButton reel1;
 	private JButton reel2;
@@ -30,6 +30,7 @@ public class SlotMachineView extends JPanel
     JLabel imageLabel1 = new JLabel();
     JLabel imageLabel2 = new JLabel();
     JLabel imageLabel3 = new JLabel();
+    JLabel imageLabel4 = new JLabel();
 
     //	private BufferedImage buttonIcon;
 
@@ -71,11 +72,22 @@ public class SlotMachineView extends JPanel
 		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/1.png");
 		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/2.png");
 		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/3.png");
+		ImageIcon ii4 = new ImageIcon("src/croyale/resources/reels/lever1.png");
 
 		imageLabel1.setIcon(ii1);
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
+        
+        //leverButton.setBackground(Color.black);
+        //leverButton.setIcon(ii4);
+        
+        //imageLabel4.setIcon(ii4);
 
+//        b = new JButton();
+//        b.setBackground(Color.black);
+//        ImageIcon img = new ImageIcon("C:\\Users\\Aksi\\Documents\\NetBeansProjects\\test'\\src\\test\\Black_B.ico");
+//        b.setIcon(img);
+        
         reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
 		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
@@ -136,7 +148,11 @@ public class SlotMachineView extends JPanel
         mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(displayBar);
         mainPane.add(Box.createVerticalStrut(40));
+ 
         mainPane.add(leverButton);
+
+        //mainPane.add(imageLabel4);
+        
         mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(resultBar);
         mainPane.add(Box.createVerticalStrut(200));
@@ -247,6 +263,7 @@ public class SlotMachineView extends JPanel
 	public void addSpinListener(ActionListener nal) {
 
     	leverButton.addActionListener(nal);
+    	//imageLabel4.addActionListener(nal);
 
 	}
 
