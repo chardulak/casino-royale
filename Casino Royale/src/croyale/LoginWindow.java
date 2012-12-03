@@ -297,7 +297,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 		slotmachineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SlotMachineMVC sm = new SlotMachineMVC(frame.gameContainer);
+					SlotMachineMVC sm = new SlotMachineMVC(frame.gameContainer, frame.cs, frame.UserID);
 				} 
 				catch (Exception ee) {
 					System.out.println("Could not create Casino gui");

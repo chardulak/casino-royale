@@ -2,12 +2,105 @@ package croyale.games.slotmachine;
 
 import java.util.Random;
 
-public class SlotMachineModel {
+import croyale.security.ClientSecurity;
 
+public class SlotMachineModel {
+	private int a[] = {0,0,0};
+	
+	public final static int BAR = 1;
+	public final static int BELL = 2;
+	public final static int CHERRY = 3; 
+	public final static int LEMON = 4;
+	public final static int PLUM = 5;
+	public final static int SEVEN = 6;
+	
+	private int betMultiplier = 0;
+	protected int bet = 0;
+	private double balance;
+	private ClientSecurity cs;
+	private int uid;
+
+	public SlotMachineModel(ClientSecurity cs, int user_id){
+		this.cs = cs;
+		uid = user_id;
+		try {
+			balance = cs.getUserBalance(user_id);
+		}
+		catch (Exception e){
+			balance = 0;
+		}
+	}
+	
 	public int[] spin(){
 		Random generator = new Random(System.currentTimeMillis());
 		
-		int a[] = {(Math.abs(generator.nextInt())%5+1),(Math.abs(generator.nextInt())%5+1),(Math.abs(generator.nextInt())%5+1)};
+		a[0] = Math.abs(generator.nextInt())%5+1;
+		a[1] = Math.abs(generator.nextInt())%5+1;
+		a[2] = Math.abs(generator.nextInt())%5+1;
 		return a;
+	}
+	
+	public int checkResult(){
+	
+		balance = balance - bet;
+		
+		betMultiplier = 0;
+		
+		switch(a[0]){
+		case CHERRY:
+			if (a[1] == CHERRY) {
+				if (a[2] == CHERRY)
+					betMultiplier = 150;
+				else 
+					betMultiplier = 10;
+			}
+			else 
+				betMultiplier = 2;
+			break;
+		case BAR:
+			if (a[1] == BAR && a[2] == BAR)
+				betMultiplier = 20;
+			else 
+				betMultiplier = 0;
+			break;
+		case SEVEN:
+			if (a[1] == SEVEN && a[2] == SEVEN)
+				betMultiplier = 1000;
+			else 
+				betMultiplier = 0;
+			break;
+		default:
+			betMultiplier = 0;
+			break;
+		}
+		if (a[0] != CHERRY){
+			if (a[1] == CHERRY) {
+				if (a[2] == CHERRY)
+					betMultiplier = 10;
+				else 
+					betMultiplier = 2;
+			}
+			else if (a[2] == CHERRY)
+				betMultiplier = 2;
+		}
+		
+		balance = balance +  bet*betMultiplier;
+		System.out.println("New balance is " + balance);
+		try{
+			cs.setBalance(uid, String.valueOf(balance));
+		}
+		catch(Exception e){
+			
+		}
+			
+		return bet*betMultiplier;
+	}
+	
+	public double getBalance(){
+		return balance;
+	}
+	
+	public void setBet(int b){
+		bet = b;
 	}
 }
