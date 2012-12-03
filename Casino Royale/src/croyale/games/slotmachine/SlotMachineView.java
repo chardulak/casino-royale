@@ -70,6 +70,7 @@ public class SlotMachineView extends JPanel
 
 		contentPane.add(mainPane);
 		contentPane.revalidate();
+		contentPane.repaint();
 
 	}
 

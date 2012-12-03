@@ -60,7 +60,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 								
 					int windowWidth = 1280;
-					int windowHeight = 800;
+					int windowHeight = 750;
 					frame.setBounds(50, 100, windowWidth, windowHeight);
 					frame.setResizable(false);
 								
