@@ -37,6 +37,9 @@ public class MainScreenView extends JFrame {
 	protected JTextField UserIDBox;
 	protected JTextField PasswordBox;
 	
+	private JLabel nameText;
+	private JLabel balanceText;
+	
 	public MainScreenView(){
 		
 	}
@@ -131,9 +134,9 @@ public class MainScreenView extends JFrame {
 		
 		JLabel accountInfoBoxTitle = new JLabel("Account Info");
 		accountInfoBox.add(accountInfoBoxTitle);
-		JLabel nameText = new JLabel("Name:");
+		nameText = new JLabel("Name:");
 		accountInfoBox.add(nameText);
-		JLabel balanceText = new JLabel("Balance:");
+		balanceText = new JLabel("Balance:");
 		accountInfoBox.add(balanceText);
 		accountInfoBox.add(Box.createVerticalGlue());
 		
@@ -221,5 +224,10 @@ public class MainScreenView extends JFrame {
 	public void addBlackJackListener(ActionListener nal) {
 		blackjackButton.addActionListener(nal);
 	}
-	
+	public void setName(String name){
+		this.nameText.setText(name);
+	}
+	public void setBalance(String balance){
+		this.balanceText.setText(balance);
+	}
 }

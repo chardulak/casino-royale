@@ -1,6 +1,7 @@
 package croyale;
 
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
@@ -12,6 +13,8 @@ public class MainScreenModel {
 
 	private ClientSecurity cs;
 	private int UserID;
+	private String userName;
+	private String userBalance;
 	
 	public MainScreenModel(){
 		
@@ -22,9 +25,12 @@ public class MainScreenModel {
 	}
 	
 	public boolean login(String usr, String pwd) throws RemoteException{
-		
+		DecimalFormat decFormat = new DecimalFormat("$#,###.00");
 		UserID = cs.checkPlayer(usr, pwd);
 		if(UserID > 0){
+			Player player = cs.getPlayer(UserID);
+			userName = player.getFirstName() + " " + player.getLastName();
+			userBalance = (String)decFormat.format(player.getBalance()) ;
 			return true;
 		}
 		else{
@@ -66,5 +72,11 @@ public class MainScreenModel {
 			System.out.println("Could not create slot machine");
 			ee.printStackTrace();
 		}
+	}
+	public String getName(){
+		return userName;
+	}
+	public String getBalance(){
+		return userBalance;
 	}
 }

@@ -35,6 +35,9 @@ public class MainScreenController {
 					view.addUpdateListener(new UpdateListener());
 					view.addBlackJackListener(new BlackJackListener());
 					view.addSlotMachineListener(new SlotMachineListener());
+					
+					view.setName(model.getName());
+					view.setBalance(model.getBalance());
 				}
 				else
 					view.alertInvalidLogin();
