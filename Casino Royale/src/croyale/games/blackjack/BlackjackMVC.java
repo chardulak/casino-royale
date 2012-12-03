@@ -6,7 +6,7 @@ public class BlackjackMVC {
 	public BlackjackMVC(JPanel panel){
 		BlackjackModel model = new BlackjackModel();
 		BlackjackView view = new BlackjackView(panel);
-		BlackjackController controller = new BlackjackController(model,view);
+		new BlackjackController(model,view);
 	
 	}
 }

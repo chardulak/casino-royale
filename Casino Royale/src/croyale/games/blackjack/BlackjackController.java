@@ -3,13 +3,6 @@ package croyale.games.blackjack;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
-import croyale.gameutil.Card;
-
-//import croyale.gameutil.Play;
-
-
 public class BlackjackController {
 	private BlackjackModel model;
 	private BlackjackView view;
@@ -23,6 +16,12 @@ public class BlackjackController {
 		view.addStandListener(new StandListener ());
 		view.addBetListener(new BetListener());
 		view.addNewGameListener(new NewGameListener());
+		
+		startGame();
+		
+	}
+	
+	private void startGame(){
 		int winner = model.deal();
 		if (winner == 1){
 			view.drawWin();
@@ -30,8 +29,10 @@ public class BlackjackController {
 		else if (winner == -1){
 			view.drawLose();
 		}
+		
 		view.displayCards(model.getHands());
 	}
+	
 	private class HitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			try{
@@ -48,39 +49,26 @@ public class BlackjackController {
 			}
 		}
 	}
+	
 	private class StandListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			try {
-			//String source = ((JButton)e.getSource()).getText();
-			/*	if(model.getDealerHand().getBlackjackValue() == 21)
-					view.drawLose();
-				else if (model.getUserHand().getBlackjackValue() == 21)
-					view.drawWin();
-				*///else if (source == "Stand!"){
-
-					while (model.getDealerHand().getBlackjackValue() <= 16) {
-						 model.dealOneCard(model.getDealerHand());
-						 view.displayCards(model.getHands());
-				         if (model.getDealerHand().getBlackjackValue() > 21) {
-				           // Dealer busted by going over 21.  You win.
-				        	model.setUserWins(true);
-				         }
-				    }
-					if(!model.getUserWins()){
-						if (model.getDealerHand().getBlackjackValue() >= model.getUserHand().getBlackjackValue())
-							view.drawLose();
-						else
-							view.drawWin();
-					}
+				while (model.getDealerHand().getBlackjackValue() <= 16) {
+					 model.dealOneCard(model.getDealerHand());
+					 view.displayCards(model.getHands());
+			         if (model.getDealerHand().getBlackjackValue() > 21) {
+			           // Dealer busted by going over 21.  You win.
+			        	model.setUserWins(true);
+			         }
+			    }
+				if(!model.getUserWins()){
+					if (model.getDealerHand().getBlackjackValue() >= model.getUserHand().getBlackjackValue())
+						view.drawLose();
 					else
 						view.drawWin();
-				/*else if (source == "New Game?"){
-					view.reset();
-					view.displayCards(model.deal());
-				}*/
-				//Play currentPlay = BlackjackController.this.m_view.getCurrentPlay();
-
-				//BlackjackController.this.m_view.setMoney(BlackjackController.this.m_model.getMoney());
+				}
+				else
+					view.drawWin();
 			}
 			catch(Exception ee){
 				ee.printStackTrace();
