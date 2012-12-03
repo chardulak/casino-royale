@@ -3,12 +3,14 @@ package croyale.games.slotmachine;
 
 import javax.swing.*;
 
+import croyale.FormatUtility;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 
 public class SlotMachineView extends JPanel
 {
@@ -250,7 +252,8 @@ public class SlotMachineView extends JPanel
 	}
 	
 	public void setBalance(double balance){
-		balanceBox.setText(String.valueOf(balance));
+		balanceBox.setText(FormatUtility.formatCurrency(balance));
+		
 	}
 	
 	public void setWinnings(int winnings){

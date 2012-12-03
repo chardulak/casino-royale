@@ -25,12 +25,11 @@ public class MainScreenModel {
 	}
 	
 	public boolean login(String usr, String pwd) throws RemoteException{
-		DecimalFormat decFormat = new DecimalFormat("$#,###.00");
 		UserID = cs.checkPlayer(usr, pwd);
 		if(UserID > 0){
 			Player player = cs.getPlayer(UserID);
 			userName = player.getFirstName() + " " + player.getLastName();
-			userBalance = (String)decFormat.format(player.getBalance()) ;
+			userBalance = FormatUtility.formatCurrency(player.getBalance()) ;
 			return true;
 		}
 		else{
