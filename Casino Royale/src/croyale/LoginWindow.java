@@ -27,8 +27,10 @@ import croyale.games.blackjack.BlackjackMVC;
 import croyale.games.slotmachine.SlotMachineMVC;
 import croyale.rpc.ServerHostInterface;
 import croyale.security.ClientSecurity;
+import croyale.security.digest.SHA256Digest;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
+import croyale.util.ToHexString;
 
 public class LoginWindow extends JFrame implements ActionListener{
 	private int UserID;
@@ -170,7 +172,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			try{
 				//System.out.println(dbf.connectDBase());
 				//UserID = dbf.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
-				UserID = cs.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
+				UserID = cs.checkPlayer(UserIDBox.getText(), ToHexString.toHexString(SHA256Digest.digest(PasswordBox.getText())));
 				if(UserID > 0){
 //					MenuWindow mw = new MenuWindow(UserID);
 //					mw.setVisible(true);
