@@ -3,6 +3,8 @@ package croyale.games.slotmachine;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Timer;
+
 public class SlotMachineController {
 	private SlotMachineModel model;
 	private SlotMachineView view;
@@ -17,8 +19,14 @@ public class SlotMachineController {
 		public void actionPerformed(ActionEvent e){
 			try{
 				view.spinSpinners();
-				//Thread.sleep(3000);
-				//view.setSpinners(model.spin());
+				ActionListener spinDelay = new ActionListener() {
+		            public void actionPerformed(ActionEvent evt) {
+		            	view.setSpinners(model.spin());
+		            }
+		            };
+		        Timer timer = new Timer( 1000 , spinDelay);
+		        timer.setRepeats(false);
+		        timer.start();
 			}catch (Exception e2){
 				;
 			}
@@ -26,4 +34,5 @@ public class SlotMachineController {
 	}
 	
 }
+
 

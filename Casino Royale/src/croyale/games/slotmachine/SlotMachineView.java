@@ -94,6 +94,10 @@ public class SlotMachineView extends JPanel
 	void setSpinners(int[] a){
 		reelSpinners.removeAll();
 		
+		System.out.print(a[0]+", ");
+		System.out.print(a[1]+", ");
+		System.out.println(a[2]);
+		
 		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/" + a[0] + ".png");
 		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/" + a[1] + ".png");
 		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/" + a[2] + ".png");
