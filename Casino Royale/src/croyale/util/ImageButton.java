@@ -8,8 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class ImageButton extends JButton {
-
-	  private java.awt.Image img;
+	private static final long serialVersionUID = -3199810890461346921L;
+	
+	private java.awt.Image img;
 	  {setOpaque(false);} 
 
 	  public ImageButton(String img) {

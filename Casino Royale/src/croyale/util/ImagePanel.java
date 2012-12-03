@@ -8,8 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class ImagePanel extends JLabel {
-
-	  private java.awt.Image img;
+	private static final long serialVersionUID = -2353445987123840646L;
+	
+	private java.awt.Image img;
 	  {setOpaque(false);} 
 
 	  public ImagePanel(String img) {
