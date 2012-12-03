@@ -18,7 +18,7 @@ public class SlotMachineView extends JPanel
 	private JPanel reelSpinners;
 //	private JPanel controls;
 	
-	public JButton leverButton;
+	private JButton leverButton;
 	
 	private JButton reel1;
 	private JButton reel2;
@@ -72,28 +72,22 @@ public class SlotMachineView extends JPanel
 		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/1.png");
 		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/2.png");
 		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/3.png");
-		ImageIcon ii4 = new ImageIcon("src/croyale/resources/reels/lever1.png");
+		//ImageIcon ii4 = new ImageIcon("src/croyale/resources/reels/lever1.png");
 
 		imageLabel1.setIcon(ii1);
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
         
         //leverButton.setBackground(Color.black);
-        //leverButton.setIcon(ii4);
+        //leverButton.setIcon(new ImageIcon("src/croyale/resources/reels/lever1.png"));
         
-        //imageLabel4.setIcon(ii4);
-
-//        b = new JButton();
-//        b.setBackground(Color.black);
-//        ImageIcon img = new ImageIcon("C:\\Users\\Aksi\\Documents\\NetBeansProjects\\test'\\src\\test\\Black_B.ico");
-//        b.setIcon(img);
+        //new ImageIcon(img)
         
         reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
 		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
 		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel3, java.awt.BorderLayout.CENTER);
-        
         
         JPanel displayBar = new JPanel();
         displayBar.setLayout(new BoxLayout(displayBar,BoxLayout.X_AXIS));
@@ -160,6 +154,7 @@ public class SlotMachineView extends JPanel
 		contentPane.add(mainPane);
 		contentPane.revalidate();
 		contentPane.repaint();
+		contentPane.validate();
 
 	}
 	
