@@ -3,6 +3,7 @@ package croyale.games.slotmachine;
 
 import javax.swing.*;
 
+import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
 
 import java.awt.*;
@@ -78,6 +79,7 @@ public class SlotMachineView extends JPanel
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
         
+        leverButton = new ImageButton(new ImageIcon("src/croyale/resources/reels/lever1.png").getImage());
         //leverButton.setBackground(Color.black);
         //leverButton.setIcon(new ImageIcon("src/croyale/resources/reels/lever1.png"));
         
@@ -125,7 +127,7 @@ public class SlotMachineView extends JPanel
         displayBar.add(winBox);
         displayBar.add(Box.createHorizontalStrut(40));
 
-        leverButton = new JButton("Spin Wheel");
+        //leverButton = new JButton("Spin Wheel");
         
         resultBar = new JPanel();
         resultBar.setLayout(new BoxLayout(resultBar,BoxLayout.X_AXIS));

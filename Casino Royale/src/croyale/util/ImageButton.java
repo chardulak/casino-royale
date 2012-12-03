@@ -32,4 +32,13 @@ public class ImageButton extends JButton {
 	    //super.paintComponent(g);
 	  }
 
+	  public void setImage(Image img){
+		  	this.img = img;
+	   		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+		    setPreferredSize(size);
+		    setMinimumSize(size);
+		    setMaximumSize(size);
+		    setSize(size);
+		    setLayout(null);
+	  }
 	}
