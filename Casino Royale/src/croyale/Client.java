@@ -19,8 +19,6 @@ public class Client implements Constants
 			ClientSecurity cs = new ClientSecurity(shi);
 			cs.doKeyAgree();
 			
-			cs.checkPlayer("michael", "password");
-			
 			new MainScreenMVC(cs);
 			//LoginWindow.init(cs);
 			
