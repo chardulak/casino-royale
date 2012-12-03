@@ -2,58 +2,52 @@ package croyale;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
-import java.awt.Dimension;
 import javax.swing.Box;
 
 import croyale.games.blackjack.BlackjackMVC;
 import croyale.games.slotmachine.SlotMachineMVC;
-import croyale.rpc.ServerHostInterface;
 import croyale.security.ClientSecurity;
-import croyale.security.digest.SHA256Digest;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
-import croyale.util.ToHexString;
 
 public class LoginWindow extends JFrame implements ActionListener{
-	private int UserID;
-	private JButton OkButton;
-	private JButton RegisterButton;
-	private JButton RegistrationButton;
-	//private JPanel contentPane;
-	private JTextField UserIDBox;
-	private JTextField PasswordBox;
-	private JLabel UserIDLabel;
-	private JLabel PasswordLabel;
-	private JPanel formContaine;
-	private JPanel formContainer;
-	private JLayeredPane contentPane2;
-	private Container registrationPane;
-	private JPanel gameContainer;
+	private static final long serialVersionUID = 2931038748092092694L;
+
 	private static LoginWindow frame;
+	private JPanel gameContainer;
 	
 	private ClientSecurity cs;
+	private int UserID;
 	
-	/**
-	 * Launch the application.
-	 */
+	private JButton OkButton;
+	private JButton RegisterButton;
+	
+	private JTextField UserIDBox;
+	private JTextField PasswordBox;
+
+	// Constructors
+	public LoginWindow(ClientSecurity cs) {
+		this.cs = cs;
+		setScreen();
+	}
+	public LoginWindow() {
+		setScreen();
+	}
+	
+	// Main entry point
 	public static void init(final ClientSecurity cs) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -74,6 +68,8 @@ public class LoginWindow extends JFrame implements ActionListener{
 			}
 		});
 	}
+	
+	// Main entry point if bypassing database
 	public static void init() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -94,18 +90,11 @@ public class LoginWindow extends JFrame implements ActionListener{
 			}
 		});
 	}
-	public LoginWindow(ClientSecurity cs) {
-		this.cs = cs;
-		setScreen();
-	}
-	public LoginWindow() {
-		setScreen();
-	}
+	
+	// Draw Login Window
 	private void setScreen(){
-		//Container loginPane = new JPanel();
 		
 		JLayeredPane loginPane = new JLayeredPane();
-		//loginPane.setBackground(new java.awt.Color(0,176,80));
 		
 		JLabel backgroundPane = new ImagePanel(new ImageIcon("src/croyale/resources/casinobackground1.jpeg").getImage());
 		backgroundPane.setOpaque(false);
@@ -115,6 +104,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 		registerForm.setOpaque(false);
 		registerForm.setBounds(300, 200, 400, 200);
 		registerForm.add(Box.createVerticalStrut(50));
+		
 		// Label for Name
 		JPanel nameLabel = new JPanel();
 		nameLabel.setLayout(new BoxLayout(nameLabel, BoxLayout.X_AXIS));
@@ -165,20 +155,19 @@ public class LoginWindow extends JFrame implements ActionListener{
 		this.setContentPane(loginPane);
 		this.setVisible(true);
 	}
+	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == OkButton){
-			System.out.println("here");
-			//Database dbf = new Database();
 			try{
-				//System.out.println(dbf.connectDBase());
-				//UserID = dbf.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
 				UserID = cs.checkPlayer(UserIDBox.getText(), PasswordBox.getText());
 				if(UserID > 0){
-//					MenuWindow mw = new MenuWindow(UserID);
-//					mw.setVisible(true);
 					setGameScreen();
 				}else{
-					JOptionPane.showMessageDialog(null,"You are not Reigistred.","Error Message", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Invalid Username/Password.\n" +
+							"Please try again, or if you are a new user,\n" +
+							"please register first!",
+							"Login Error", 
+							JOptionPane.ERROR_MESSAGE);
 					UserID=0;
 				}
 			}
@@ -186,17 +175,15 @@ public class LoginWindow extends JFrame implements ActionListener{
 				System.out.println(e1.toString());
 			}
 		}
-		//else if(e.getSource() == RegistrationButton){
-		//	RegistrationWindow rw = new RegistrationWindow(UserID, cs);
-		//	rw.setVisible(true);
-		//	//this.dispose();
-		//}
 		else{
 			RegistrationWindow rw = new RegistrationWindow(cs);
 			rw.setVisible(true);
 		}
 	}
+	
+	// Draw main screen
 	private void setGameScreen(){
+
 		// Set background image
 		JLabel contentPane = new ImagePanel(new ImageIcon("src/croyale/resources/casinobackground3.jpeg").getImage());
 		
@@ -266,7 +253,6 @@ public class LoginWindow extends JFrame implements ActionListener{
 		JButton blackjackButton = new ImageButton(new ImageIcon("src/croyale/resources/blackjackbutton.jpg").getImage());
 		JButton slotmachineButton = new ImageButton(new ImageIcon("src/croyale/resources/slotmachinebutton.jpg").getImage());
 		
-		
 		rightPane.add(Box.createHorizontalStrut(43));
 		rightPane.add(Box.createVerticalStrut(15));
 		rightPane.add(Box.createVerticalGlue());
@@ -286,10 +272,10 @@ public class LoginWindow extends JFrame implements ActionListener{
 				try {
 					System.out.println("Height is: " + frame.gameContainer.getHeight() );
 					System.out.println("Width is:" + frame.gameContainer.getWidth());
-					BlackjackMVC blackjackWindow = new BlackjackMVC(frame.gameContainer);
+					new BlackjackMVC(frame.gameContainer);
 				} 
 				catch (Exception ee) {
-					System.out.println("Could not create Casino gui");
+					System.out.println("Could not create blackjack");
 					ee.printStackTrace();
 				}
 			}
@@ -297,10 +283,10 @@ public class LoginWindow extends JFrame implements ActionListener{
 		slotmachineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SlotMachineMVC sm = new SlotMachineMVC(frame.gameContainer, frame.cs, frame.UserID);
+					new SlotMachineMVC(frame.gameContainer, frame.cs, frame.UserID);
 				} 
 				catch (Exception ee) {
-					System.out.println("Could not create Casino gui");
+					System.out.println("Could not create slot machine");
 					ee.printStackTrace();
 				}
 			}

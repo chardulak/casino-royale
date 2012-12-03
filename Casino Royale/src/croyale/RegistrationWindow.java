@@ -1,10 +1,13 @@
 package croyale;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,44 +16,35 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import javax.swing.BoxLayout;
-
-import croyale.rpc.ServerHostInterface;
 import croyale.security.ClientSecurity;
-import croyale.security.digest.SHA256Digest;
-import croyale.util.ToHexString;
 
 public class RegistrationWindow extends JFrame implements ActionListener {
-	private JPanel contentPane;
-	private JPanel labelPanel,fieldsPanel;
-	private String labels[] = {"UserID","Password","First Name","Last Name","Balance","Address","Phone","Email"};
-	private JTextField UserIDBox,PasswordBox,FirstNameBox,LastNameBox,BalanceBox,AddressBox,PhoneBox,EmailBox;
-	private int UserID=0;
-	private JButton OkButton,CancelButton;
-//	private Database dbf = new Database();
+	private static final long serialVersionUID = 7956599113963455798L;
+	
 	private ClientSecurity cs;
+	private int UserID=0;
+	
+	private JTextField UserIDBox,PasswordBox,FirstNameBox,LastNameBox,BalanceBox,AddressBox,PhoneBox,EmailBox;
+	private JButton OkButton,CancelButton;
+	
 	
 	public RegistrationWindow(ClientSecurity cs) {
 		this.cs= cs;
 		UserID=0;
-		//System.out.println("UserID aa " + UserID);
-		System.out.println("B");
 		setWindow();
-		//fillFields();
 	}
-	public RegistrationWindow(int _id, ClientSecurity cs) {
+	
+	public RegistrationWindow(int id, ClientSecurity cs) {
 		this.cs = cs;
-		
-		UserID = _id;
-		System.out.println("A");
-		System.out.println("UserID 11 " + UserID);
+		UserID = id;
 		setWindow();
+		
 		if(UserID >0){
 			fillFields();
 		}
 	}
+	
 	private void setWindow(){
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(150, 200, 500, 600);
 		JPanel contentPane = new JPanel();
@@ -58,10 +52,8 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setFields();
-		
-		System.out.println("UserID 22 " + UserID);
-		//setButtonLayout();
 	}
+	
 	private void setFields(){
 		Container registrationPane = new JPanel();
 		registrationPane.setBackground(new Color(0,176,80));
@@ -208,6 +200,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		registrationPane.add(registerForm);
 		this.add(registrationPane);
 	}
+	
 	private boolean checkFields(){
 		boolean flg = true;
 		if(UserIDBox.getText().trim().length() == 0){
@@ -233,105 +226,55 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		}
 		return flg;
 	}
-	//private void setButtonLayout(){
-		//setLayout(new GridLayout(1,2));
-		
-		//OkButton = new JButton("Ok");
-		//add(OkButton);
-		//CancelButton = new JButton("Cancel");
-		//add(CancelButton);
-		//OkButton.addActionListener(this);
-		//CancelButton.addActionListener(this);
-	//}
+	
 	private void fillFields(){
-		//Database dbf = new Database();
-//		java.sql.ResultSet rs = null;
-		
-		System.out.println("fillFields " + UserID);
 		
 		try{
-//			System.out.println(dbf.connectDBase());
-			try{
-//				rs = dbf.getPlayer(UserID);
-				
-				
-//				rs = cs.getPlayer(UserID);
-//				rs.next();
-				
-				Player player = cs.getPlayer(UserID);
-				
-				FirstNameBox.setText(player.getFirstName());
-				LastNameBox.setText(player.getLastName());
-				UserIDBox.setText(player.getUserName());
-				PasswordBox.setText(player.getPassword());
-				BalanceBox.setText(Double.toString(player.getBalance()));
-				AddressBox.setText(player.getAddress());
-				PhoneBox.setText(player.getPhone());
-				EmailBox.setText(player.getEmail());
-				
-				//FirstNameBox.setText(rs.getString(2).toString());
-//				FirstNameBox.setText(rs.getString(2).trim());
-//				LastNameBox.setText(rs.getString(3).trim());
-//				UserIDBox.setText(rs.getString(4).trim());
-//				PasswordBox.setText(rs.getString(5).trim());
-//				BalanceBox.setText(rs.getString(6).trim());
-//				AddressBox.setText(rs.getString(7).trim());
-//				PhoneBox.setText(rs.getString(8).trim());
-//				EmailBox.setText(rs.getString(9).trim());
-				
-			}catch(Exception e2){
-				JOptionPane.showMessageDialog(null,"You are not Registered.","Error Message", JOptionPane.ERROR_MESSAGE);
-				System.out.println(e2.toString());
-			}
+			Player player = cs.getPlayer(UserID);
+			FirstNameBox.setText(player.getFirstName());
+			LastNameBox.setText(player.getLastName());
+			UserIDBox.setText(player.getUserName());
+			PasswordBox.setText(player.getPassword());
+			BalanceBox.setText(Double.toString(player.getBalance()));
+			AddressBox.setText(player.getAddress());
+			PhoneBox.setText(player.getPhone());
+			EmailBox.setText(player.getEmail());
 			
-		}catch(Exception e1){
-			System.out.println(e1.toString());
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null,"You are not Registered.","Error Message", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.toString());
 		}
 	}
+	
 	private void updatePlayer(){
-		//Database dbf = new Database();
 		String msg="Your changes have been saved";
 		try{
-//			System.out.println(dbf.connectDBase());
-			try{
-				System.out.println("User ID 3 "+ UserID);
-//				dbf.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
-				cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
-				if(UserID == 0){
-//					UserID = dbf.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
-					UserID = cs.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
-					msg="Your account has been set up. Please login to play the games";
-				}
-				JOptionPane.showMessageDialog(null,msg,"Casino", JOptionPane.INFORMATION_MESSAGE);
-			}catch(Exception e2){
-				JOptionPane.showMessageDialog(null,"You are not Reigistred."+ LastNameBox.getText(),"Error Message", JOptionPane.ERROR_MESSAGE);
-				System.out.println(e2.toString());
+			cs.setPlayer(UserID,FirstNameBox.getText(),LastNameBox.getText(),UserIDBox.getText(),PasswordBox.getText(),AddressBox.getText(),PhoneBox.getText(), EmailBox.getText(), BalanceBox.getText());
+			if(UserID == 0){
+				UserID = cs.checkPlayer(UserIDBox.getText(),PasswordBox.getText());
+				msg="Your account has been set up. Please login to play the games";
 			}
-		}catch(Exception e1){
-			System.out.println(e1.toString());
+			JOptionPane.showMessageDialog(null,msg,"Casino", JOptionPane.INFORMATION_MESSAGE);
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null,"You are not Reigistred."+ LastNameBox.getText(),"Error Message", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.toString());
 		}
 	}
+	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == OkButton){
 			
 			if(checkFields() == true){
 				updatePlayer();
 				this.dispose();
-				//openRegistrationWindow();
 			}else{
 				JOptionPane.showMessageDialog(null,"You must fill in all fields.","Casino", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
 		}else{
-			//openRegistrationWindow();
 			this.dispose();
 		}
 		
-	}
-	private void openRegistrationWindow(){
-		//MenuWindow mw = new MenuWindow(UserID);
-		//mw.setVisible(true);
-		//this.dispose();
 	}
 }
 
