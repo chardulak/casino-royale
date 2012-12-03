@@ -262,7 +262,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 				
 				FirstNameBox.setText(player.getFirstName());
 				LastNameBox.setText(player.getLastName());
-				UserIDBox.setText(Integer.toString(player.getUserID()));
+				UserIDBox.setText(player.getUserName());
 				PasswordBox.setText(player.getPassword());
 				BalanceBox.setText(Double.toString(player.getBalance()));
 				AddressBox.setText(player.getAddress());

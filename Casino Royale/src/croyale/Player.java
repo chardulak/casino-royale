@@ -50,5 +50,8 @@ public class Player implements Serializable{
 	public String getEmail(){
 		return email;
 	}
+	public String getUserName(){
+		return user_name;
+	}
 }
 
