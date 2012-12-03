@@ -2,15 +2,11 @@ package croyale.games.slotmachine;
 
 
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 
 import croyale.util.ImagePanel;
 
 import java.awt.*;
-import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
 public class SlotMachineView extends JPanel
 {
@@ -68,25 +64,88 @@ public class SlotMachineView extends JPanel
 		reel3 = new JButton("Reel3");
 		reel3.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/spin.gif");
-		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/spin.gif");
-		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/1.png");
+		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/2.png");
+		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/3.png");
 
 		imageLabel1.setIcon(ii1);
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
 
         reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
-		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
-		reelSpinners.add(Box.createRigidArea(new Dimension(20,20)));
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel3, java.awt.BorderLayout.CENTER);
+        
+        leverButton = new JButton("Spin Wheel");
 
+        mainPane.add(Box.createVerticalStrut(225));
         mainPane.add(reelSpinners);
+        mainPane.add(Box.createVerticalStrut(50));
+        mainPane.add(leverButton);
 
 		contentPane.add(mainPane);
 		contentPane.revalidate();
 		contentPane.repaint();
+
+	}
+	
+	void setSpinners(int[] a){
+		reelSpinners.removeAll();
+		
+		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/" + a[0] + ".png");
+		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/" + a[1] + ".png");
+		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/" + a[2] + ".png");
+		
+		imageLabel1 = new JLabel();
+		imageLabel2 = new JLabel();
+		imageLabel3 = new JLabel();
+		
+		imageLabel1.setIcon(ii1);
+        imageLabel2.setIcon(ii2);
+        imageLabel3.setIcon(ii3);
+		
+		reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
+        reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
+        reelSpinners.add(imageLabel3, java.awt.BorderLayout.CENTER);
+        
+        reelSpinners.revalidate();
+        reelSpinners.repaint();
+		
+	}
+	
+	void spinSpinners(){
+		System.out.println("trying to spin");
+		reelSpinners.removeAll();
+		
+		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/spin.gif");
+		
+		imageLabel1 = new JLabel();
+		imageLabel2 = new JLabel();
+		imageLabel3 = new JLabel();
+		
+		imageLabel1.setIcon(ii1);
+        imageLabel2.setIcon(ii2);
+        imageLabel3.setIcon(ii3);
+		
+		reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
+        reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
+		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
+        reelSpinners.add(imageLabel3, java.awt.BorderLayout.CENTER);
+        
+        reelSpinners.revalidate();
+        reelSpinners.repaint();
+	}
+
+	public void addSpinListener(ActionListener nal) {
+
+    	leverButton.addActionListener(nal);
 
 	}
 

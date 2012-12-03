@@ -318,7 +318,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					RegistrationWindow rw = new RegistrationWindow(UserID,cs);
+					RegistrationWindow rw = new RegistrationWindow(frame.UserID,frame.cs);
 					rw.setVisible(true);
 				} 
 				catch (Exception ee) {
