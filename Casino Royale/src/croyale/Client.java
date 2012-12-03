@@ -21,7 +21,9 @@ public class Client implements Constants
 			
 			cs.checkPlayer("michael", "password");
 			
-			LoginWindow.init(cs);
+			new MainScreenMVC(cs);
+			//LoginWindow.init(cs);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
