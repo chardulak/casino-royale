@@ -47,7 +47,7 @@ public class MainScreenModel {
 	
 	public void createBlackJackGame(JPanel gameContainer){
 		try {
-			new BlackjackMVC(gameContainer);
+			new BlackjackMVC(gameContainer, session);
 		} 
 		catch (Exception ee) {
 			System.out.println("Could not create slot machine");

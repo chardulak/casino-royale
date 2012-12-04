@@ -2,35 +2,39 @@ package croyale.games.blackjack;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import croyale.Session;
+import croyale.util.FormatUtility;
 
 public class BlackjackController {
 	private BlackjackModel model;
 	private BlackjackView view;
+	private Session session;
 
 	public BlackjackController(BlackjackModel m, BlackjackView v){ 
 		model = m;
 		view = v;
-		view.setMoney(model.getMoney());
 
 		view.addHitListener(new HitListener());
 		view.addStandListener(new StandListener ());
 		view.addBetListener(new BetListener());
 		view.addNewGameListener(new NewGameListener());
 		
+		view.setMoney(FormatUtility.formatCurrency(Double.parseDouble(model.getMoney())));
+				
+	}
+	
+	public void setSession(Session s){
+		session = s;
+		session.addBalanceField(view.balanceField);
 		startGame();
-		
 	}
 	
 	private void startGame(){
-		int winner = model.deal();
-		if (winner == 1){
-			view.drawWin();
-		}
-		else if (winner == -1){
-			view.drawLose();
-		}
-		
-		view.displayCards(model.getHands());
+		model.setBet(view.getBet());
+		view.newGameButton.setVisible(true);
 	}
 	
 	private class HitListener implements ActionListener {
@@ -64,11 +68,15 @@ public class BlackjackController {
 				if(!model.getUserWins()){
 					if (model.getDealerHand().getBlackjackValue() >= model.getUserHand().getBlackjackValue())
 						view.drawLose();
-					else
+					else{
+						model.setUserWins(true);
 						view.drawWin();
+					}
 				}
-				else
+				else{
+					model.setUserWins(true);
 					view.drawWin();
+				}
 			}
 			catch(Exception ee){
 				ee.printStackTrace();
@@ -86,21 +94,25 @@ public class BlackjackController {
 				view.drawLose();
 			}
 			view.displayCards(model.getHands());
+			model.bet();
 		}
 	}
-	private class BetListener implements ActionListener {
-		public BetListener() {
-			// TODO Auto-generated constructor stub
+
+	private class BetListener implements KeyListener {
+		public void keyReleased(KeyEvent ke){
+			model.setBet(view.getBet());
 		}
 
-		public void actionPerformed(ActionEvent e){
-			int bet;
-			try {
-				bet = BlackjackController.this.view.getBet();
-			}
-			catch(Exception ee){
-				ee.printStackTrace();
-			}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }

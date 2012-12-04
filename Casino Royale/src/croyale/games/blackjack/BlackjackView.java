@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -13,6 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import croyale.gameutil.Card;
 import croyale.gameutil.Hand;
 import croyale.util.ImagePanel;
 
@@ -22,8 +25,10 @@ public class BlackjackView{
 
 	protected JPanel winLoseBar;
 	protected JButton hitButton, standButton, newGameButton;
-	protected JTextArea betField, balanceField;
+	protected JLabel balanceField;
+	protected JTextArea betField;
 	protected JLayeredPane yourCards, dealerCards;
+	private Hand currentHands[];
 
 
 	BlackjackView(JPanel gamePane){
@@ -146,7 +151,7 @@ public class BlackjackView{
 		balanceBar.setOpaque(false);
 
 		JLabel balanceLabel = new JLabel("Balance:");
-		balanceField = new JTextArea("10");
+		balanceField = new JLabel();
 
 		balanceBar.add(Box.createVerticalStrut(20));
 		balanceBar.add(Box.createHorizontalStrut(390));
@@ -196,13 +201,14 @@ public class BlackjackView{
     public void addPlayListener(ActionListener pal){
     	//hitButton.addActionListener(pal);
     	//standButton.addActionListener(pal);
-    	;//newGameButton.addActionListener(pal);
+    	//newGameButton.addActionListener(pal);
     }
-    public void addBetListener(ActionListener bal){
-    	//this.m_betBtn.addActionListener(bal);
+    public void addBetListener(KeyListener kal){
+    	betField.addKeyListener(kal);
     }
     
     public void displayCards(Hand[] hands){
+    	currentHands = hands;
     	yourCards.removeAll();
     	yourCards.revalidate();
     	yourCards.repaint();
@@ -218,12 +224,38 @@ public class BlackjackView{
 
     	for (int j=hands[1].getCardCount()-1;j>=0;j--){
     		JLabel currentCard = hands[1].getCard(j).getImage();
+    		if (j == 0){
+    			Card hidden = new Card(-1,-1);
+    			currentCard = hidden.getImage();
+    		}
+    		dealerCards.add(currentCard,30-j);
+    		currentCard.setBounds(j*15,0,72,96);
+    	}
+    }
+    
+    public void showCards(){
+    	yourCards.removeAll();
+    	yourCards.revalidate();
+    	yourCards.repaint();
+    	dealerCards.removeAll();
+    	dealerCards.revalidate();
+    	dealerCards.repaint();
+    	for (int i=currentHands[0].getCardCount()-1;i>=0;i--){
+    		JLabel currentCard = currentHands[0].getCard(i).getImage();
+    		yourCards.add(currentCard,20-i);
+    		currentCard.setBounds(i*15,0,72,96);
+    		
+    	}
+
+    	for (int j=currentHands[1].getCardCount()-1;j>=0;j--){
+    		JLabel currentCard = currentHands[1].getCard(j).getImage();
     		dealerCards.add(currentCard,30-j);
     		currentCard.setBounds(j*15,0,72,96);
     	}
     }
     
     public void drawWin(){
+    	showCards();
     	winLoseBar.removeAll();
 
 		JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/win.png").getImage());
@@ -240,6 +272,7 @@ public class BlackjackView{
     }
     
     public void drawLose(){
+    	showCards();
     	winLoseBar.removeAll();
 
 		JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/lose.png").getImage());
