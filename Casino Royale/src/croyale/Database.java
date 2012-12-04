@@ -71,11 +71,11 @@ public class Database {
 		cmst.setString(9,_balance);
 		cmst.execute();
 	}
-	public double getBalance(int _userid)throws SQLException{
+	public double getBalance(int _id)throws SQLException{
 		java.sql.ResultSet rs = null;
 		double balance;
 		CallableStatement cmst = conn.prepareCall("{call getBalance(?)}");
-		cmst.setInt(1,_userid);
+		cmst.setInt(1,_id);
 		cmst.execute();
 		
 		rs = cmst.getResultSet();
@@ -87,10 +87,52 @@ public class Database {
 		}
 		return balance;
 	}
-	public void setBalance(int _userid,String _balance)throws SQLException{
+	public void setBalance(int _id,String _balance)throws SQLException{
 		CallableStatement cmst = conn.prepareCall("{call setBalance(?,?)}");
-		cmst.setInt(1,_userid);
+		cmst.setInt(1,_id);
 		cmst.setString(2,_balance);
+		cmst.execute();
+	}
+	public void setAddress(int _id,String _address)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setAddress(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_address);
+		cmst.execute();
+	}
+	public void setEmail(int _id,String _email)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setEmail(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_email);
+		cmst.execute();
+	}
+	public void setFirstName(int _id,String _firstname)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setFirstName(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_firstname);
+		cmst.execute();
+	}
+	public void setLastName(int _id,String _lastname)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setLastName(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_lastname);
+		cmst.execute();
+	}
+	public void setPassword(int _id,String _password)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setPassword(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_password);
+		cmst.execute();
+	}
+	public void setPhone(int _id,String _phone)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setPhone(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_phone);
+		cmst.execute();
+	}
+	public void setUserID(int _id,String _userid)throws SQLException{
+		CallableStatement cmst = conn.prepareCall("{call setUserID(?,?)}");
+		cmst.setInt(1,_id);
+		cmst.setString(2,_userid);
 		cmst.execute();
 	}
 }
