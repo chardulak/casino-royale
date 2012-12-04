@@ -191,6 +191,8 @@ public class MainScreenView extends JFrame {
 		// Set up middle Pane (game Container)
 		gameContainer.setLayout(new BorderLayout());
 		gameContainer.setOpaque(true);
+		JLabel mainPane = new ImagePanel(new ImageIcon("src/croyale/resources/First.png").getImage());
+		gameContainer.add(mainPane);
 		
 		// Set up Right Pane (game selection)
 		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.Y_AXIS));
