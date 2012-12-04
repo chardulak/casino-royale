@@ -2,19 +2,21 @@ package croyale.games.blackjack;
 
 //import java.lang.reflect.InvocationTargetException;
 
-import java.math.BigInteger;
-
+import croyale.Session;
 import croyale.gameutil.BlackjackHand;
 import croyale.gameutil.Deck;
 import croyale.gameutil.Hand;
 
 public class BlackjackModel {
 
-	private static final String INITIAL_VALUE = "100";
-	private BigInteger money;
+	private Session session;
+	
+	private double balance;
+	private int bet;
     boolean userWins;   // Did the user win the game?
 
-	public BlackjackModel() {
+	public BlackjackModel(Session s) {
+		session = s;
 		reset();
 	}
 	public Hand[] getHands(){
@@ -25,18 +27,23 @@ public class BlackjackModel {
 		return userWins;
 	}
 	public void setUserWins(boolean wins){
+		if (wins){
+           balance = balance + ((bet*3)/2);
+           session.updateBalance(balance);
+		}
 		userWins = wins;
 	}
 	public void reset() {
-		money = new BigInteger(INITIAL_VALUE);
+		balance = session.getBalance();
 	}
    
 	public String getMoney(){
-    	return money.toString();
+    	return Double.toString(balance);
     }
     
-	public void setMoney(String value){
-    	money = new BigInteger(value);
+	public void setMoney(double bal){
+    	balance = bal;
+    	session.updateBalance(bal);
     }
 
 	public void hit(){
@@ -46,6 +53,16 @@ public class BlackjackModel {
 	public void stand(){
 
 	}
+	
+	public void setBet(int b){
+		bet = b;
+	}
+	
+	public void bet(){
+		balance = balance - bet;
+		session.updateBalance(balance);
+	}
+	
 	private Deck deck;                  // A deck of cards.  A new deck for each game.
 	private BlackjackHand dealerHand;	// The dealer's hand.
 	private BlackjackHand userHand;		// The user's hand.
@@ -97,6 +114,8 @@ public class BlackjackModel {
 	                                     + " and the " + userHand.getCard(1) + ".");
 	           System.out.println();
 	           System.out.println("You have Blackjack.  You win.");
+	           balance = balance + ((bet*3)/2);
+	           session.updateBalance(balance);
 	           return 1;
 	      }
 	      

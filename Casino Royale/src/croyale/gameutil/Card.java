@@ -83,10 +83,16 @@ public class Card {
     public String toString() {
            // Return a String representation of this card, such as
            // "10 of Hearts" or "Queen of Spades".
+    	if (value == -1 && suit == -1){
+    		return "Blank Card";
+    	}
         return getValueAsString() + " of " + getSuitAsString();
     }
     
     public JLabel getImage() {
+    	if (value == -1 && suit == -1){
+    		return new ImagePanel(new ImageIcon("src/croyale/resources/deck/back.png").getImage());
+    	}
     	Integer card = new Integer(value*4+suit-3);
     	return new ImagePanel(new ImageIcon("src/croyale/resources/deck/" + card + ".png").getImage());
     }
