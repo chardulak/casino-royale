@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -38,7 +39,7 @@ public class MainScreenView extends JFrame {
 	protected JTextField PasswordBox;
 	
 	private JLabel nameText;
-	private JLabel balanceText;
+	protected JLabel balanceText;
 	
 	public MainScreenView(){
 		

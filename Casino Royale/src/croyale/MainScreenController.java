@@ -2,6 +2,8 @@ package croyale;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import croyale.security.ClientSecurity;
 
@@ -9,20 +11,27 @@ public class MainScreenController {
 
 	private MainScreenModel model;
 	private MainScreenView view;
+	private Session session;
 	
 	public MainScreenController(MainScreenModel m, MainScreenView v){
 		model = m;
 		view = v;
-	}
-	
-	public void setClientSecurity(ClientSecurity cs){
-		model.setClientSecurity(cs);
-	}
-	
-	public void start(){
 		view.drawLoginScreen();
 		view.addLoginListener(new LoginListener());
 		view.addRegistrationListener(new RegistrationListener());
+		view.addComponentListener(new CloseListener());
+	}
+	
+	public void setSession(Session s){
+		session = s;
+	}
+	
+	private class CloseListener extends ComponentAdapter{
+		@Override
+		public void componentHidden(ComponentEvent e) {
+            session.close();
+            view.dispose();
+        }
 	}
 	
 	private class LoginListener implements ActionListener{
@@ -38,6 +47,7 @@ public class MainScreenController {
 					
 					view.setName(model.getName());
 					view.setBalance(model.getBalance());
+					session.addBalanceField(view.balanceText);
 				}
 				else
 					view.alertInvalidLogin();

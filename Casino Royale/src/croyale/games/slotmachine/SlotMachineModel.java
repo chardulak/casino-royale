@@ -2,6 +2,7 @@ package croyale.games.slotmachine;
 
 import java.util.Random;
 
+import croyale.Session;
 import croyale.security.ClientSecurity;
 
 public class SlotMachineModel {
@@ -17,18 +18,11 @@ public class SlotMachineModel {
 	private int betMultiplier = 0;
 	protected int bet = 0;
 	private double balance;
-	private ClientSecurity cs;
-	private int uid;
+	private Session session;
 
-	public SlotMachineModel(ClientSecurity cs, int user_id){
-		this.cs = cs;
-		uid = user_id;
-		try {
-			balance = cs.getUserBalance(user_id);
-		}
-		catch (Exception e){
-			balance = 0;
-		}
+	public SlotMachineModel(Session s){
+		session = s;
+		balance = session.getBalance();
 	}
 	
 	public int[] spin(){
@@ -40,9 +34,12 @@ public class SlotMachineModel {
 		return a;
 	}
 	
-	public int checkResult(){
-	
+	public void bet(){
 		balance = balance - bet;
+		session.updateBalance(balance);
+	}
+	
+	public int checkResult(){
 		
 		betMultiplier = 0;
 		
@@ -86,12 +83,9 @@ public class SlotMachineModel {
 		
 		balance = balance +  bet*betMultiplier;
 		System.out.println("New balance is " + balance);
-		try{
-			cs.setBalance(uid, String.valueOf(balance));
-		}
-		catch(Exception e){
-			
-		}
+		
+		session.updateBalance(balance);
+		
 			
 		return bet*betMultiplier;
 	}
