@@ -49,8 +49,9 @@ public class MainScreenController {
 					view.setBalance(model.getBalance());
 					session.addBalanceField(view.balanceText);
 				}
-				else
-					view.alertInvalidLogin();
+				else{
+					//view.alertInvalidLogin();
+				}
 			}catch(Exception ee){
 				
 			}

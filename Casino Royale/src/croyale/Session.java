@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import croyale.screen.registration.RegistrationWindow;
@@ -35,7 +36,29 @@ public class Session {
 			userBalance = FormatUtility.formatCurrency(balance) ;
 			return true;
 		}
+		else if (UserID == Constants.USER_DNE){
+
+			JOptionPane.showMessageDialog(null,"User does not exist.\n" +
+					"Please register first!",
+					"Login Error", 
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if (UserID == Constants.USER_LOGGED_IN){
+
+			JOptionPane.showMessageDialog(null,"User is already logged in on another machine.\n" +
+					"Please log out at your other location first,\n" +
+					"then login again.",
+					"Login Error", 
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		else{
+			JOptionPane.showMessageDialog(null,"Invalid Username/Password.\n" +
+					"Please try again, or if you are a new user,\n" +
+					"please register first!",
+					"Login Error", 
+					JOptionPane.ERROR_MESSAGE);
 			UserID = 0;
 			return false;
 		}
