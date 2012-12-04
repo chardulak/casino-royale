@@ -3,9 +3,7 @@ package croyale;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,8 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import croyale.games.blackjack.BlackjackMVC;
-import croyale.games.slotmachine.SlotMachineMVC;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
 

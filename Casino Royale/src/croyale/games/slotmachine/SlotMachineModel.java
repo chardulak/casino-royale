@@ -3,7 +3,6 @@ package croyale.games.slotmachine;
 import java.util.Random;
 
 import croyale.Session;
-import croyale.security.ClientSecurity;
 
 public class SlotMachineModel {
 	private int a[] = {0,0,0};

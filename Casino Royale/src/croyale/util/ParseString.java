@@ -10,6 +10,7 @@ public class ParseString {
 	// HashMap for storing objects created by user
 	private static HashMap<String, Object> hmObjects = new HashMap<String, Object>();
 	// Parses a command string for a new object instantiation (Option 3)
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public void parseString(String s) throws ClassNotFoundException,
 				InstantiationException, IllegalAccessException,
 				NoSuchMethodException, SecurityException, IllegalArgumentException,

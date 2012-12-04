@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import croyale.security.ClientSecurity;
-
 public class MainScreenController {
 
 	private MainScreenModel model;

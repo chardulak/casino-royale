@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import croyale.security.ClientSecurity;
-
 public class MainScreenMVC {
 	MainScreenModel model;
 	MainScreenView view;

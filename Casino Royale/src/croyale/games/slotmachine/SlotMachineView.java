@@ -10,10 +10,11 @@ import croyale.util.ImagePanel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import java.text.DecimalFormat;
 
 public class SlotMachineView extends JPanel
 {
+	private static final long serialVersionUID = 9027529210938467608L;
+
 	//JButton button1;
 	private JPanel contentPane;
 	

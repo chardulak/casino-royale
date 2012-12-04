@@ -1,13 +1,11 @@
 package croyale;
 
 import java.rmi.RemoteException;
-import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
 import croyale.games.blackjack.BlackjackMVC;
 import croyale.games.slotmachine.SlotMachineMVC;
-import croyale.security.ClientSecurity;
 
 public class MainScreenModel {
 

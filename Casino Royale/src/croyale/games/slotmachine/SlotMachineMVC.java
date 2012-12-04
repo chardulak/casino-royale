@@ -1,10 +1,8 @@
 package croyale.games.slotmachine;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import croyale.Session;
-import croyale.security.ClientSecurity;
 
 public class SlotMachineMVC
 {
