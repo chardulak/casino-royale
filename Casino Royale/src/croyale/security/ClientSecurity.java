@@ -36,11 +36,11 @@ public class ClientSecurity
 		System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
 	}
 	
-	public double getUserBalance(int user_id) throws RemoteException
+	public double getUserBalance(int id) throws RemoteException
 	{
 		try {
-			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
-			return (double)CRCipher.decrypt(secret_key, shi.getUserBalance(sealed_user_id));
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			return (double)CRCipher.decrypt(secret_key, shi.getUserBalance(sealed_id));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -61,12 +61,12 @@ public class ClientSecurity
 		}
 	}
 	
-	public void setBalance(int user_id, String balance) throws RemoteException
+	public void setBalance(int id, String balance) throws RemoteException
 	{
 		try {
-			SealedObject sealed_user_id = CRCipher.encrypt(secret_key, user_id);
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
 			SealedObject sealed_balance = CRCipher.encrypt(secret_key, balance);
-			shi.setBalance(sealed_user_id, sealed_balance);
+			shi.setBalance(sealed_id, sealed_balance);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,6 +98,83 @@ public class ClientSecurity
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public void setAddress(int id, String address) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_address = CRCipher.encrypt(secret_key, address);
+			shi.setAddress(sealed_id, sealed_address);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setEmail(int id, String email) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_email = CRCipher.encrypt(secret_key, email);
+			shi.setEmail(sealed_id, sealed_email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setFirstName(int id, String firstname) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_firstname = CRCipher.encrypt(secret_key, firstname);
+			shi.setFirstName(sealed_id, sealed_firstname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setLastName(int id, String lastname) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_lastname = CRCipher.encrypt(secret_key, lastname);
+			shi.setLastName(sealed_id, sealed_lastname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setPassword(int id, String password) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_password = CRCipher.encrypt(secret_key, ToHexString.toHexString(SHA256Digest.digest(password)));
+			shi.setPassword(sealed_id, sealed_password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setPhone(int id, String phone) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_phone = CRCipher.encrypt(secret_key, phone);
+			shi.setPhone(sealed_id, sealed_phone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setUserID(int id, String user_id) throws RemoteException
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			SealedObject sealed_userid = CRCipher.encrypt(secret_key, user_id);
+			shi.setUserID(sealed_id, sealed_userid);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
