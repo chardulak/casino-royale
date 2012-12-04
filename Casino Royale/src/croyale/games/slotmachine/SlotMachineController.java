@@ -43,10 +43,14 @@ public class SlotMachineController {
 			//view.setBalance(model.getBalance() - model.bet);
 			
 	        JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/blankwinlose.png").getImage());
+	        view.toggle.setImage(new ImageIcon("src/croyale/resources/reels/lever2.png").getImage());
 	        
-	        view.resultBar.add(Box.createHorizontalStrut(10));
+	        view.resultBar.add(Box.createVerticalStrut(100));
+	        view.resultBar.add(Box.createHorizontalStrut(5));
 	        view.resultBar.add(gameResultDisplay);
-	        view.resultBar.add(Box.createHorizontalStrut(50));
+	        view.resultBar.add(Box.createHorizontalStrut(5));
+	        view.resultBar.add(view.toggle);
+	        view.resultBar.add(Box.createHorizontalStrut(200));
 	        
 	        view.resultBar.revalidate();
 	        view.resultBar.repaint();

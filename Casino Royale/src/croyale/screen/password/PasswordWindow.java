@@ -17,8 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import croyale.Session;
-import croyale.security.ClientSecurity;
-import croyale.util.Player;
 
 public class PasswordWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7956599113963455798L;
@@ -113,7 +111,6 @@ public class PasswordWindow extends JFrame implements ActionListener {
 	}
 	
 	private void updatePlayer(){
-		String msg="Your changes have been saved";
 		try{
 			if (session.cs.checkPlayer(session.userIDString, PasswordBox.getText()) == session.UserID){
 				session.cs.setPassword(session.UserID, PasswordBox2.getText());

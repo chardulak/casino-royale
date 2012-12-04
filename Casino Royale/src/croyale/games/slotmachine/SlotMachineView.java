@@ -20,7 +20,7 @@ public class SlotMachineView extends JPanel
 	
 	private JPanel topPane;
 	private JPanel reelSpinners;
-	private ImageButton toggle;
+	protected ImageButton toggle;
 
 	private JButton reel1;
 	private JButton reel2;
@@ -123,20 +123,19 @@ public class SlotMachineView extends JPanel
         
         JLabel resultDisplay = new JLabel();
 
-        resultBar.add(Box.createHorizontalStrut(10));
+        resultBar.add(Box.createVerticalStrut(100));
+        resultBar.add(Box.createHorizontalStrut(5));
         resultBar.add(resultDisplay);
-        resultBar.add(Box.createHorizontalStrut(50));
+        resultBar.add(Box.createHorizontalStrut(5));
+        resultBar.add(toggle);
+        resultBar.add(Box.createHorizontalStrut(200));
         
         mainPane.add(Box.createVerticalStrut(225));
         mainPane.add(reelSpinners);
         mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(displayBar);
         mainPane.add(Box.createVerticalStrut(30));
-        mainPane.add(toggle);
- 
-        mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(resultBar);
-        mainPane.add(Box.createVerticalStrut(200));
 
 		contentPane.add(mainPane);
 		contentPane.revalidate();
@@ -206,10 +205,14 @@ public class SlotMachineView extends JPanel
 		resultBar.removeAll();
         
         JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/lose.png").getImage());
+        toggle.setImage(new ImageIcon("src/croyale/resources/reels/lever1.png").getImage());
         
-        resultBar.add(Box.createHorizontalStrut(10));
+        resultBar.add(Box.createVerticalStrut(100));
+        resultBar.add(Box.createHorizontalStrut(5));
         resultBar.add(gameResultDisplay);
-        resultBar.add(Box.createHorizontalStrut(50));
+        resultBar.add(Box.createHorizontalStrut(5));
+        resultBar.add(toggle);
+        resultBar.add(Box.createHorizontalStrut(200));
         
         resultBar.revalidate();
         resultBar.repaint();
@@ -222,10 +225,14 @@ public class SlotMachineView extends JPanel
 		resultBar.removeAll();
         
         JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/win.png").getImage());
+        toggle.setImage(new ImageIcon("src/croyale/resources/reels/lever1.png").getImage());
         
-        resultBar.add(Box.createHorizontalStrut(10));
+        resultBar.add(Box.createVerticalStrut(100));
+        resultBar.add(Box.createHorizontalStrut(5));
         resultBar.add(gameResultDisplay);
-        resultBar.add(Box.createHorizontalStrut(50));
+        resultBar.add(Box.createHorizontalStrut(5));
+        resultBar.add(toggle);
+        resultBar.add(Box.createHorizontalStrut(200));
         
         resultBar.revalidate();
         resultBar.repaint();
