@@ -86,7 +86,7 @@ public class Session {
 	}
 	
 	public void updateUserInfo(){
-		RegistrationWindow rw = new RegistrationWindow(UserID, cs);
+		RegistrationWindow rw = new RegistrationWindow(UserID, cs, this);
 		rw.setVisible(true);
 	}
 	

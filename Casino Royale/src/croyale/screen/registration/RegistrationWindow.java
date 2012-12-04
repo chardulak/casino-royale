@@ -16,12 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import croyale.Session;
 import croyale.security.ClientSecurity;
 import croyale.util.Player;
 
 public class RegistrationWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7956599113963455798L;
 	
+	private Session session;
 	private ClientSecurity cs;
 	private int UserID=0;
 	
@@ -36,7 +38,8 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 		setWindow();
 	}
 	
-	public RegistrationWindow(int id, ClientSecurity cs) {
+	public RegistrationWindow(int id, ClientSecurity cs, Session s) {
+		session = s;
 		this.cs = cs;
 		UserID = id;
 		if(UserID >0){
@@ -429,6 +432,7 @@ public class RegistrationWindow extends JFrame implements ActionListener {
 				}
 				if(BalanceBox.getText().trim().length() != 0){
 					cs.setBalance(UserID, BalanceBox.getText());
+					session.updateBalance(Double.parseDouble(BalanceBox.getText()));
 				}
 				if(AddressBox.getText().trim().length() != 0){
 					cs.setAddress(UserID,AddressBox.getText());
