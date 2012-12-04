@@ -1,4 +1,4 @@
-package croyale;
+package croyale.server;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,12 +20,10 @@ public class Server implements Constants
 		try {
 			registry = LocateRegistry.createRegistry(1099);
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			try {
 				registry = LocateRegistry.getRegistry(1099);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -36,7 +34,6 @@ public class Server implements Constants
 			
 			registry.rebind(SERVER_NAME, sh);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(1);
 		}

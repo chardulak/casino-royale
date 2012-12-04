@@ -2,262 +2,212 @@ package croyale.rpc;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Vector;
+import java.util.Hashtable;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
 import croyale.db.Database;
-import croyale.security.CRCipher;
 import croyale.security.keyagreement.DHKeyAgreement;
+import croyale.server.ClientSession;
 import croyale.util.ToHexString;
 
 @SuppressWarnings("serial")
-public class ServerHost extends UnicastRemoteObject implements ServerHostInterface
+public class ServerHost extends UnicastRemoteObject implements ServerHostInterface, Constants
 {
-	private static final int USER_DNE = 0;
-	private static final int USER_LOGGED_IN = -1;
+	private static final int MAX_SESSION_COUNT = 100000;
 	
 	private Database db;
-	private SecretKey secret_key;
-	private Vector<Integer> active_ids = new Vector<Integer>();
+	private int session_count;
+	private Hashtable<Integer, ClientSession> active_sessions = new Hashtable<Integer, ClientSession>();
 	
 	public ServerHost(Database db) throws RemoteException
 	{
 		super(1099);
 		this.db = db;
-		active_ids.clear();
+		session_count = 0;
+		active_sessions.clear();
+	}
+	
+	public int createSession() throws RemoteException
+	{
+		System.out.println("Calling createSession method");
+		try {
+			int ret = session_count;
+			active_sessions.put(session_count, new ClientSession(db));
+			System.out.println("\tSession created with id " + session_count);
+			session_count++;
+			if( session_count > MAX_SESSION_COUNT )
+			{
+				session_count = 0;
+			}
+			return ret;
+		} catch(Exception e){
+			e.printStackTrace();
+			return SESSION_CREATE_FAIL;
+		}
 	}
 	
 	// Uses the public key from the client to generate a shared secret key
-	public byte[] doKeyAgree(byte[] client_key) throws RemoteException {
-		System.out.println("Calling doKeyAgree method");
-		DHKeyAgreement key_agree = new DHKeyAgreement();
-		byte[] public_key = key_agree.getPublicKeyEncoded();
-		key_agree.generateSecretKey(client_key);
-		secret_key = key_agree.getSecretKey();
-		
-		System.out.println("Client public key: " + ToHexString.toHexString(client_key));
-		System.out.println("Server public key: " + ToHexString.toHexString(public_key));
-		
-		System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
-		
-		return public_key;
-	}
-	
-	public SealedObject getUserBalance(SealedObject sealed_id) throws RemoteException
+	public byte[] doKeyAgree(int session_id, byte[] client_key) throws RemoteException
 	{
-		System.out.println("Calling getUserBalance method");
-		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
+		System.out.println("Calling doKeyAgree method for session " + session_id);
+		try{
+			DHKeyAgreement key_agree = new DHKeyAgreement();
+			byte[] public_key = key_agree.getPublicKeyEncoded();
+			key_agree.generateSecretKey(client_key);
+			SecretKey secret_key = key_agree.getSecretKey();
 			
-			System.out.println("\tID: " + id);
+			System.out.println("Client public key: " + ToHexString.toHexString(client_key));
+			System.out.println("Server public key: " + ToHexString.toHexString(public_key));
 			
-			return CRCipher.encrypt(secret_key, db.getBalance(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public SealedObject checkPlayer(SealedObject sealed_user_id, SealedObject sealed_password)throws RemoteException
-	{
-		System.out.println("Calling check player method");
-		try {
-			int ret;
+			System.out.println("Secret key: " + ToHexString.toHexString(secret_key.getEncoded()));
 			
-			String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
-			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
+			ClientSession session = active_sessions.get(new Integer(session_id));
 			
-			System.out.println("\tID: " + user_id + " Password: " + password);
-			
-			int id = db.checkPlayer(user_id, password);
-			
-			// If user exists
-			if( id > 0 )
+			if( session != null )
 			{
-				// If user already logged in
-				if( active_ids.contains(new Integer(id)) )
-				{
-					ret = USER_LOGGED_IN;
-				}
-				else
-				{
-					ret = id;
-				}
+				session.setSecretKey(secret_key);
+				return public_key;
 			}
 			else
 			{
-				ret = USER_DNE;
+				return null;
 			}
-			
-			return CRCipher.encrypt(secret_key, ret);
+		} catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public SealedObject checkPlayer(int session_id, SealedObject sealed_user_id, SealedObject sealed_password) throws RemoteException
+	{
+		System.out.println("Calling check player method for session " + session_id);
+		try {
+			return active_sessions.get(new Integer(session_id)).checkPlayer(sealed_user_id, sealed_password);
+		} catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public SealedObject getPlayer(int session_id, SealedObject sealed_id) throws RemoteException
+	{
+		System.out.println("Calling getPlayer method for session " + session_id);
+		try {
+			return active_sessions.get(new Integer(session_id)).getPlayer(sealed_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public void setBalance(SealedObject sealed_id, SealedObject sealed_balance) throws RemoteException
+	public SealedObject getUserBalance(int session_id, SealedObject sealed_id) throws RemoteException
 	{
-		System.out.println("Calling setBalance method");
+		System.out.println("Calling getUserBalance method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String balance = (String)CRCipher.decrypt(secret_key, sealed_balance);
-			
-			System.out.println("\tID: " + id + " Balance: " + balance);
-			
-			db.setBalance(id, balance);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void setPlayer(SealedObject sealed_id, SealedObject sealed_firstname, SealedObject sealed_lastname, SealedObject sealed_user_id, SealedObject sealed_password, SealedObject sealed_address, SealedObject sealed_phone, SealedObject sealed_email, SealedObject sealed_balance) throws RemoteException
-	{
-		System.out.println("Caling setPlayer method");
-		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String firstname = (String)CRCipher.decrypt(secret_key, sealed_firstname);
-			String lastname = (String)CRCipher.decrypt(secret_key, sealed_lastname);
-			String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
-			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
-			String address = (String)CRCipher.decrypt(secret_key, sealed_address);
-			String phone = (String)CRCipher.decrypt(secret_key, sealed_phone);
-			String email = (String)CRCipher.decrypt(secret_key, sealed_email);
-			String balance = (String)CRCipher.decrypt(secret_key, sealed_balance);
-			
-			System.out.println("\tID: " + id);
-			System.out.println("\tFirstname: " + firstname);
-			System.out.println("\tLastname: " + lastname);
-			System.out.println("\tID: " + user_id);
-			System.out.println("\tPassword: " + password);
-			System.out.println("\tAddress: " + address);
-			System.out.println("\tPhone: " + phone);
-			System.out.println("\tEmail: " + email);
-			System.out.println("\tBalance: " + balance);
-			
-			db.setPlayer(id, firstname, lastname, user_id, password, address, phone, email, balance);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public SealedObject getPlayer(SealedObject sealed_id) throws RemoteException
-	{
-		System.out.println("Calling getPlayer method");
-		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			
-			System.out.println("\tID: " + id);
-			
-			return CRCipher.encrypt(secret_key, db.getPlayer(id));
+			return active_sessions.get(new Integer(session_id)).getUserBalance(sealed_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public void setAddress(SealedObject sealed_id, SealedObject sealed_address) throws RemoteException
+	public void setAddress(int session_id, SealedObject sealed_id, SealedObject sealed_address) throws RemoteException
 	{
-		System.out.println("Calling setAddress method");
+		System.out.println("Calling setAddress method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String address = (String)CRCipher.decrypt(secret_key, sealed_address);
-			
-			System.out.println("\tID: " + id + " Address: " + address);
-			
-			db.setAddress(id, address);
+			active_sessions.get(new Integer(session_id)).setAddress(sealed_id, sealed_address);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setEmail(SealedObject sealed_id, SealedObject sealed_email) throws RemoteException
+	public void setBalance(int session_id, SealedObject sealed_id, SealedObject sealed_balance) throws RemoteException
 	{
-		System.out.println("Calling setEmail method");
+		System.out.println("Calling setBalance method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String email = (String)CRCipher.decrypt(secret_key, sealed_email);
-			
-			System.out.println("\tID: " + id + " Email: " + email);
-			
-			db.setEmail(id, email);
+			active_sessions.get(new Integer(session_id)).setBalance(sealed_id, sealed_balance);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setFirstName(SealedObject sealed_id, SealedObject sealed_firstname) throws RemoteException
+	public void setEmail(int session_id, SealedObject sealed_id, SealedObject sealed_email) throws RemoteException
 	{
-		System.out.println("Calling setFirstName method");
+		System.out.println("Calling setEmail method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String firstname = (String)CRCipher.decrypt(secret_key, sealed_firstname);
-			
-			System.out.println("\tID: " + id + " Firstname: " + firstname);
-			
-			db.setFirstName(id, firstname);
+			active_sessions.get(new Integer(session_id)).setEmail(sealed_id, sealed_email);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setLastName(SealedObject sealed_id, SealedObject sealed_lastname) throws RemoteException
+	public void setFirstName(int session_id, SealedObject sealed_id, SealedObject sealed_firstname) throws RemoteException
 	{
-		System.out.println("Calling setLastName method");
+		System.out.println("Calling setFirstName method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String lastname = (String)CRCipher.decrypt(secret_key, sealed_lastname);
-			
-			System.out.println("\tID: " + id + " Lastname: " + lastname);
-			
-			db.setLastName(id, lastname);
+			active_sessions.get(new Integer(session_id)).setFirstName(sealed_id, sealed_firstname);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setPassword(SealedObject sealed_id, SealedObject sealed_password) throws RemoteException
+	public void setLastName(int session_id, SealedObject sealed_id, SealedObject sealed_lastname) throws RemoteException
 	{
-		System.out.println("Calling setPassword method");
+		System.out.println("Calling setLastName method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
-			
-			System.out.println("\tID: " + id + " Password: " + password);
-			
-			db.setPassword(id, password);
+			active_sessions.get(new Integer(session_id)).setLastName(sealed_id, sealed_lastname);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setPhone(SealedObject sealed_id, SealedObject sealed_phone) throws RemoteException
+	public void setPassword(int session_id, SealedObject sealed_id, SealedObject sealed_password) throws RemoteException
 	{
-		System.out.println("Calling setPhone method");
+		System.out.println("Calling setPassword method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String phone = (String)CRCipher.decrypt(secret_key, sealed_phone);
-			
-			System.out.println("\tID: " + id + " Phone: " + phone);
-			
-			db.setPhone(id, phone);
+			active_sessions.get(new Integer(session_id)).setPassword(sealed_id, sealed_password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setUserID(SealedObject sealed_id, SealedObject sealed_user_id) throws RemoteException
+	public void setPhone(int session_id, SealedObject sealed_id, SealedObject sealed_phone) throws RemoteException
 	{
-		System.out.println("Calling setUserID method");
+		System.out.println("Calling setPhone method for session " + session_id);
 		try {
-			int id = (int)CRCipher.decrypt(secret_key, sealed_id);
-			String userid = (String)CRCipher.decrypt(secret_key, sealed_user_id);
-			
-			System.out.println("\tID: " + id + " UserID: " + userid);
-			
-			db.setUserID(id, userid);
+			active_sessions.get(new Integer(session_id)).setPhone(sealed_id, sealed_phone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setPlayer(int session_id, SealedObject sealed_id, SealedObject sealed_firstname, SealedObject sealed_lastname, SealedObject sealed_user_id, SealedObject sealed_password, SealedObject sealed_address, SealedObject sealed_phone, SealedObject sealed_email, SealedObject sealed_balance) throws RemoteException
+	{
+		System.out.println("Caling setPlayer method for session " + session_id);
+		try {
+			active_sessions.get(new Integer(session_id)).setPlayer(sealed_id, sealed_firstname, sealed_lastname, sealed_user_id, sealed_password, sealed_address, sealed_phone, sealed_email, sealed_balance);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setUserID(int session_id, SealedObject sealed_id, SealedObject sealed_user_id) throws RemoteException
+	{
+		System.out.println("Calling setUserID method for session " + session_id);
+		try {
+			active_sessions.get(new Integer(session_id)).setUserID(sealed_id, sealed_user_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSession(int session_id) throws RemoteException
+	{
+		System.out.println("Calling deleteSession method for session " + session_id);
+		try {
+			active_sessions.remove(new Integer(session_id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

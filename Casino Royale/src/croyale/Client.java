@@ -18,14 +18,12 @@ public class Client implements Constants
 			ServerHostInterface shi = (ServerHostInterface)registry.lookup(SERVER_NAME);
 			
 			ClientSecurity cs = new ClientSecurity(shi);
+			cs.createSession();
 			cs.doKeyAgree();
 			
 			Session mySession = new Session(cs);
 			new MainScreenMVC(mySession);
-			//LoginWindow.init(cs);
-			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
