@@ -19,9 +19,6 @@ public class SlotMachineView extends JPanel
 	
 	private JPanel topPane;
 	private JPanel reelSpinners;
-//	private JPanel controls;
-	
-	//private JButton leverButton;
 	private ImageButton toggle;
 
 	private JButton reel1;
@@ -36,12 +33,6 @@ public class SlotMachineView extends JPanel
     JLabel imageLabel3 = new JLabel();
     JLabel imageLabel4 = new JLabel();
 
-    //	private BufferedImage buttonIcon;
-
-//	protected JLayeredPane ree11;
-//	protected JLayeredPane reel2;
-//	protected JLayeredPane reel3;
-	
 	public SlotMachineView(JPanel gamePane)
 	{
 		 contentPane = gamePane;
@@ -76,17 +67,10 @@ public class SlotMachineView extends JPanel
 		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/1.png");
 		ImageIcon ii2 = new ImageIcon("src/croyale/resources/reels/2.png");
 		ImageIcon ii3 = new ImageIcon("src/croyale/resources/reels/3.png");
-		//ImageIcon ii4 = new ImageIcon("src/croyale/resources/reels/lever1.png");
 
 		imageLabel1.setIcon(ii1);
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
-        
-        //leverButton = new ImageButton(new ImageIcon("src/croyale/resources/reels/lever1.png").getImage());
-        //leverButton.setBackground(Color.black);
-        //leverButton.setIcon(new ImageIcon("src/croyale/resources/reels/lever1.png"));
-        
-        //new ImageIcon(img)
         
         reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
 		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
@@ -130,7 +114,6 @@ public class SlotMachineView extends JPanel
         displayBar.add(winBox);
         displayBar.add(Box.createHorizontalStrut(40));
 
-        //leverButton = new JButton("Spin Wheel");
         toggle = new ImageButton("src/croyale/resources/reels/lever1.png");
        
         resultBar = new JPanel();
@@ -147,13 +130,9 @@ public class SlotMachineView extends JPanel
         mainPane.add(reelSpinners);
         mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(displayBar);
+        mainPane.add(Box.createVerticalStrut(30));
         mainPane.add(toggle);
-        mainPane.add(Box.createVerticalStrut(40));
  
-//        mainPane.add(leverButton);
-
-        //mainPane.add(imageLabel4);
-        
         mainPane.add(Box.createVerticalStrut(10));
         mainPane.add(resultBar);
         mainPane.add(Box.createVerticalStrut(200));
@@ -161,12 +140,10 @@ public class SlotMachineView extends JPanel
 		contentPane.add(mainPane);
 		contentPane.revalidate();
 		contentPane.repaint();
-		contentPane.validate();
-
 	}
 	
 	void setSpinners(int[] a){
-		reelSpinners.removeAll();
+        reelSpinners.removeAll();
 		
 		System.out.print(a[0]+", ");
 		System.out.print(a[1]+", ");
@@ -192,11 +169,11 @@ public class SlotMachineView extends JPanel
         
         reelSpinners.revalidate();
         reelSpinners.repaint();
-		
 	}
 	
 	void spinSpinners(){
-		System.out.println("trying to spin");
+
+        System.out.println("trying to spin");
 		reelSpinners.removeAll();
 		
 		ImageIcon ii1 = new ImageIcon("src/croyale/resources/reels/spin.gif");
@@ -210,7 +187,7 @@ public class SlotMachineView extends JPanel
 		imageLabel1.setIcon(ii1);
         imageLabel2.setIcon(ii2);
         imageLabel3.setIcon(ii3);
-		
+        
 		reelSpinners.add(imageLabel1, java.awt.BorderLayout.CENTER);
 		reelSpinners.add(Box.createRigidArea(new Dimension(15,15)));
         reelSpinners.add(imageLabel2, java.awt.BorderLayout.CENTER);
