@@ -10,19 +10,19 @@ public class MainScreenMVC {
 	MainScreenModel model;
 	MainScreenView view;
 	MainScreenController controller;
-	ClientSecurity cs;
+	Session session;
 
-	public MainScreenMVC(ClientSecurity c){
+	public MainScreenMVC(Session s){
 
-		model = new MainScreenModel();
-		this.cs = c;
+		session = s;
+		model = new MainScreenModel(session);
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					view = new MainScreenView();
-					view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-								
+					view.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+					
 					int windowWidth = 1280;
 					int windowHeight = 750;
 					view.setBounds(50, 100, windowWidth, windowHeight);
@@ -31,8 +31,7 @@ public class MainScreenMVC {
 					view.setVisible(true);
 					
 					controller = new MainScreenController(model, view);
-					controller.setClientSecurity(cs);
-					controller.start();
+					controller.setSession(session);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -41,29 +40,4 @@ public class MainScreenMVC {
 		
 	}
 	
-	public MainScreenMVC(){
-
-		model = new MainScreenModel();
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					view = new MainScreenView();
-					view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-								
-					int windowWidth = 1280;
-					int windowHeight = 750;
-					view.setBounds(50, 100, windowWidth, windowHeight);
-					view.setResizable(false);
-								
-					view.setVisible(true);
-					
-					controller = new MainScreenController(model, view);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-	}
 }

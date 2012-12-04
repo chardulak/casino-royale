@@ -11,51 +11,33 @@ import croyale.security.ClientSecurity;
 
 public class MainScreenModel {
 
-	private ClientSecurity cs;
-	private int UserID;
-	private String userName;
-	private String userBalance;
+	private Session session;
 	
-	public MainScreenModel(){
-		
+	public MainScreenModel(Session s){
+		session = s;
 	}
 	
-	public void setClientSecurity(ClientSecurity cs){
-		this.cs = cs;
-	}
 	
 	public boolean login(String usr, String pwd) throws RemoteException{
-		UserID = cs.checkPlayer(usr, pwd);
-		if(UserID > 0){
-			Player player = cs.getPlayer(UserID);
-			userName = player.getFirstName() + " " + player.getLastName();
-			userBalance = FormatUtility.formatCurrency(player.getBalance()) ;
-			return true;
-		}
-		else{
-			UserID = 0;
-			return false;
-		}
+		return session.login(usr, pwd);
 		
 	}
 	
 	public void register(){
-		RegistrationWindow rw = new RegistrationWindow(cs);
-		rw.setVisible(true);
+		session.openRegistrationWindow();
 	}
 	
 	public void update(){
-		RegistrationWindow rw = new RegistrationWindow(UserID, cs);
-		rw.setVisible(true);
+		session.updateUserInfo();
 	}
 	
 	public void logout(){
-		UserID = 0;
+		session.logout();
 	}
 	
 	public void createSlotMachineGame(JPanel gameContainer){
 		try {
-			new SlotMachineMVC(gameContainer, cs, UserID);
+			new SlotMachineMVC(gameContainer, session);
 		} 
 		catch (Exception ee) {
 			System.out.println("Could not create slot machine");
@@ -73,9 +55,9 @@ public class MainScreenModel {
 		}
 	}
 	public String getName(){
-		return userName;
+		return session.getUserName();
 	}
 	public String getBalance(){
-		return userBalance;
+		return FormatUtility.formatCurrency(session.getBalance());
 	}
 }

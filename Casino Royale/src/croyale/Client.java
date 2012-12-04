@@ -19,7 +19,8 @@ public class Client implements Constants
 			ClientSecurity cs = new ClientSecurity(shi);
 			cs.doKeyAgree();
 			
-			new MainScreenMVC(cs);
+			Session mySession = new Session(cs);
+			new MainScreenMVC(mySession);
 			//LoginWindow.init(cs);
 			
 		} catch (Exception e) {

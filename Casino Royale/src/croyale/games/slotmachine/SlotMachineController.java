@@ -10,11 +10,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import croyale.Session;
 import croyale.util.ImagePanel;
 
 public class SlotMachineController {
 	private SlotMachineModel model;
 	private SlotMachineView view;
+	private Session session;
 
 	public SlotMachineController(SlotMachineModel m, SlotMachineView v){
 		model = m;
@@ -25,13 +27,20 @@ public class SlotMachineController {
 		view.setBalance(model.getBalance());
 		model.setBet(10);
 	}
+	
+	public void setSession(Session s){
+		session = s;
+		session.addBalanceField(view.balanceBox);
+	}
+	
 	private class SpinListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			
 			
 			view.resultBar.removeAll();
 			
-			view.setBalance(model.getBalance() - model.bet);
+			model.bet();
+			//view.setBalance(model.getBalance() - model.bet);
 			
 	        JLabel gameResultDisplay = new ImagePanel(new ImageIcon("src/croyale/resources/blankwinlose.png").getImage());
 	        
