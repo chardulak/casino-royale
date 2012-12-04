@@ -1,11 +1,13 @@
-package croyale;
+package croyale.screen.main;
 
 import java.rmi.RemoteException;
 
 import javax.swing.JPanel;
 
+import croyale.Session;
 import croyale.games.blackjack.BlackjackMVC;
 import croyale.games.slotmachine.SlotMachineMVC;
+import croyale.util.FormatUtility;
 
 public class MainScreenModel {
 

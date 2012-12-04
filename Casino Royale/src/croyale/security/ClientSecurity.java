@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
-import croyale.Player;
+import croyale.util.Player;
 import croyale.rpc.ServerHostInterface;
 import croyale.security.digest.SHA256Digest;
 import croyale.security.keyagreement.DHKeyAgreement;

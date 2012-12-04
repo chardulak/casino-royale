@@ -1,4 +1,4 @@
-package croyale;
+package croyale.util;
 
 import java.text.DecimalFormat;
 

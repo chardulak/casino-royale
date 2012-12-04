@@ -1,9 +1,11 @@
-package croyale;
+package croyale.screen.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import croyale.Session;
 
 public class MainScreenController {
 

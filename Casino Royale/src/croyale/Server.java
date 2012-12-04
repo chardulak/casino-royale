@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import croyale.db.Database;
 import croyale.rpc.Constants;
 import croyale.rpc.ServerHost;
 

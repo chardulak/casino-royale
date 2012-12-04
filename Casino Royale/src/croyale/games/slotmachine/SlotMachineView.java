@@ -3,7 +3,7 @@ package croyale.games.slotmachine;
 
 import javax.swing.*;
 
-import croyale.FormatUtility;
+import croyale.util.FormatUtility;
 import croyale.util.ImageButton;
 import croyale.util.ImagePanel;
 

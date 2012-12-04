@@ -1,4 +1,4 @@
-package croyale;
+package croyale.util;
 
 import java.io.Serializable;
 

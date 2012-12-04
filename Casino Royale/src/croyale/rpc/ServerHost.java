@@ -2,11 +2,12 @@ package croyale.rpc;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Vector;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
-import croyale.Database;
+import croyale.db.Database;
 import croyale.security.CRCipher;
 import croyale.security.keyagreement.DHKeyAgreement;
 import croyale.util.ToHexString;
@@ -14,13 +15,18 @@ import croyale.util.ToHexString;
 @SuppressWarnings("serial")
 public class ServerHost extends UnicastRemoteObject implements ServerHostInterface
 {
+	private static final int USER_DNE = 0;
+	private static final int USER_LOGGED_IN = -1;
+	
 	private Database db;
 	private SecretKey secret_key;
+	private Vector<Integer> active_ids = new Vector<Integer>();
 	
 	public ServerHost(Database db) throws RemoteException
 	{
 		super(1099);
 		this.db = db;
+		active_ids.clear();
 	}
 	
 	// Uses the public key from the client to generate a shared secret key
@@ -58,12 +64,34 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 	{
 		System.out.println("Calling check player method");
 		try {
+			int ret;
+			
 			String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
 			String password = (String)CRCipher.decrypt(secret_key, sealed_password);
 			
 			System.out.println("\tID: " + user_id + " Password: " + password);
 			
-			return CRCipher.encrypt(secret_key, db.checkPlayer(user_id, password));
+			int id = db.checkPlayer(user_id, password);
+			
+			// If user exists
+			if( id > 0 )
+			{
+				// If user already logged in
+				if( active_ids.contains(new Integer(id)) )
+				{
+					ret = USER_LOGGED_IN;
+				}
+				else
+				{
+					ret = id;
+				}
+			}
+			else
+			{
+				ret = USER_DNE;
+			}
+			
+			return CRCipher.encrypt(secret_key, ret);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

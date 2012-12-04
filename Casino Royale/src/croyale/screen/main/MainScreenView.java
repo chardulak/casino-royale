@@ -1,4 +1,4 @@
-package croyale;
+package croyale.screen.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

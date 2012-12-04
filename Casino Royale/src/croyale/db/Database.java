@@ -1,6 +1,8 @@
-package croyale;
+package croyale.db;
 
 import java.sql.*;
+
+import croyale.util.Player;
 
 public class Database {
 	Connection conn;

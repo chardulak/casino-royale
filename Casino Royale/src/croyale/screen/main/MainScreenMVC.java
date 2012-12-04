@@ -1,8 +1,10 @@
-package croyale;
+package croyale.screen.main;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
+import croyale.Session;
 
 public class MainScreenMVC {
 	MainScreenModel model;

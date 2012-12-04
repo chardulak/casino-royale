@@ -7,7 +7,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import croyale.screen.registration.RegistrationWindow;
 import croyale.security.ClientSecurity;
+import croyale.util.FormatUtility;
+import croyale.util.Player;
 
 public class Session {
 
@@ -74,7 +77,6 @@ public class Session {
 		try {
 			cs.setBalance(UserID, Double.toString(balance));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

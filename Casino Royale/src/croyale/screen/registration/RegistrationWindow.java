@@ -1,4 +1,4 @@
-package croyale;
+package croyale.screen.registration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import croyale.security.ClientSecurity;
+import croyale.util.Player;
 
 public class RegistrationWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7956599113963455798L;
