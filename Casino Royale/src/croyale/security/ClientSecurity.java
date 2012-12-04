@@ -53,7 +53,18 @@ public class ClientSecurity implements Constants
 			return (int)CRCipher.decrypt(secret_key, shi.checkPlayer(session_id, sealed_user_id, sealed_password));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return CHECK_PLAYER_FAILED;
+		}
+	}
+	
+	public int login(int id)
+	{
+		try {
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			return (int)CRCipher.decrypt(secret_key, shi.login(id, sealed_id));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return LOGIN_FAILED;
 		}
 	}
 	

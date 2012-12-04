@@ -7,4 +7,6 @@ public interface Constants
 	public static final int ID_AVAILABLE = -2;
 	public static final int USER_LOGGED_IN = -3;
 	public static final int USER_DNE = 0;
+	public static final int LOGIN_FAILED = -20;
+	public static final int CHECK_PLAYER_FAILED = -30;
 }

@@ -94,6 +94,17 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		}
 	}
 	
+	public SealedObject login(int session_id, SealedObject sealed_id) throws RemoteException
+	{
+		System.out.println("Calling login method for session " + session_id);
+		try {
+			return active_sessions.get(new Integer(session_id)).login(sealed_id);
+		} catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	// used by ClientSession
 	// returns USER_LOGGED_IN if id is already in active_ids
 	// otherwise returns ID_AVAILABLE

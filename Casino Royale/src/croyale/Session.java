@@ -30,25 +30,28 @@ public class Session {
 	public boolean login(String usr, String pwd) throws RemoteException{
 		UserID = cs.checkPlayer(usr, pwd);
 		if(UserID > 0){
-			Player player = cs.getPlayer(UserID);
-			userName = player.getFirstName() + " " + player.getLastName();
-			balance = player.getBalance();
-			userBalance = FormatUtility.formatCurrency(balance) ;
-			return true;
+			int login_status = cs.login(UserID);
+			
+			if (login_status == Constants.USER_LOGGED_IN){
+				JOptionPane.showMessageDialog(null,"User is already logged in on another machine.\n" +
+						"Please log out at your other location first,\n" +
+						"then login again.",
+						"Login Error", 
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else{
+				Player player = cs.getPlayer(UserID);
+				userName = player.getFirstName() + " " + player.getLastName();
+				balance = player.getBalance();
+				userBalance = FormatUtility.formatCurrency(balance) ;
+				return true;
+			}
 		}
 		else if (UserID == Constants.USER_DNE){
 
 			JOptionPane.showMessageDialog(null,"User does not exist.\n" +
 					"Please register first!",
-					"Login Error", 
-					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		else if (UserID == Constants.USER_LOGGED_IN){
-
-			JOptionPane.showMessageDialog(null,"User is already logged in on another machine.\n" +
-					"Please log out at your other location first,\n" +
-					"then login again.",
 					"Login Error", 
 					JOptionPane.ERROR_MESSAGE);
 			return false;

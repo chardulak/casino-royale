@@ -38,17 +38,17 @@ public class ClientSession implements Constants
 		String user_id = (String)CRCipher.decrypt(secret_key, sealed_user_id);
 		String password = (String)CRCipher.decrypt(secret_key, sealed_password);
 		
-		System.out.println("\tID: " + user_id + " Password: " + password);
+		System.out.println("\tUser ID: " + user_id + " Password: " + password);
 		
 		int id;
 		try {
 			id = db.checkPlayer(user_id, password);
-			int check = server_host.addActiveID(id);
-			if( check == USER_LOGGED_IN )
-			{
-				id = check;
-				System.out.println("\tUser already logged in");
-			}
+//			int check = server_host.addActiveID(id);
+//			if( check == USER_LOGGED_IN )
+//			{
+//				id = check;
+//				System.out.println("\tUser already logged in");
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			id = USER_DNE;
@@ -56,6 +56,21 @@ public class ClientSession implements Constants
 		}
 		
 		return CRCipher.encrypt(secret_key, id);
+	}
+	
+	public SealedObject login(SealedObject sealed_id) throws InvalidKeyException, ClassNotFoundException, NoSuchAlgorithmException, IOException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchPaddingException
+	{
+		int id = (int)CRCipher.decrypt(secret_key, sealed_id);
+		
+		System.out.println("\tID: " + id);
+		
+		int status = server_host.addActiveID(id);
+		if( status == USER_LOGGED_IN )
+		{
+			System.out.println("\tUser already logged in");
+		}
+		
+		return CRCipher.encrypt(secret_key, status);
 	}
 	
 	public SealedObject getPlayer(SealedObject sealed_id) throws InvalidKeyException, ClassNotFoundException, NoSuchAlgorithmException, IOException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchPaddingException, SQLException

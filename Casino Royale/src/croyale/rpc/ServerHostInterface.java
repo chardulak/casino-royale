@@ -11,6 +11,7 @@ public interface ServerHostInterface extends Remote
 	public byte[] doKeyAgree(int session_id, byte[] public_key) throws RemoteException; // returns public key of server or null if no session associated with session_id
 	
 	public SealedObject checkPlayer(int session_id, SealedObject sealed_userid, SealedObject sealed_password) throws RemoteException;
+	public SealedObject login(int session_id, SealedObject sealed_id) throws RemoteException; // only call this method after a call to checkPlayer returns proper ID
 	
 	public SealedObject getPlayer(int session_id, SealedObject sealed_id) throws RemoteException;
 	public SealedObject getUserBalance(int session_id, SealedObject sealed_id) throws RemoteException;
