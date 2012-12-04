@@ -76,6 +76,7 @@ public class Session {
 	public void close(){
 		try {
 			cs.setBalance(UserID, Double.toString(balance));
+			cs.deleteSession();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
