@@ -67,6 +67,7 @@ public class Session {
 	public void logout(){
 		try {
 			cs.setBalance(UserID, Double.toString(balance));
+			cs.logout(UserID);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

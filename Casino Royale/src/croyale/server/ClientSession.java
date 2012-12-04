@@ -180,4 +180,9 @@ public class ClientSession implements Constants
 		
 		db.setUserID(id, userid);
 	}
+	
+	public void logout(SealedObject sealed_id) throws InvalidKeyException, ClassNotFoundException, NoSuchAlgorithmException, IOException
+	{
+		server_host.removeActiveID((int)CRCipher.decrypt(secret_key, sealed_id));
+	}
 }

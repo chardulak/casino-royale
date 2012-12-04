@@ -158,7 +158,7 @@ public class ClientSecurity implements Constants
 	
 	public void setPlayer(int id, String firstname, String lastname, String user_id, String password, String address, String phone, String email, String balance) throws RemoteException
 	{
-		try {
+		try{
 			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
 			SealedObject sealed_firstname = CRCipher.encrypt(secret_key, firstname);
 			SealedObject sealed_lastname = CRCipher.encrypt(secret_key, lastname);
@@ -176,10 +176,20 @@ public class ClientSecurity implements Constants
 	
 	public void setUserID(int id, String user_id) throws RemoteException
 	{
-		try {
+		try{
 			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
 			SealedObject sealed_userid = CRCipher.encrypt(secret_key, user_id);
 			shi.setUserID(session_id, sealed_id, sealed_userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void logout(int id) throws RemoteException
+	{
+		try{
+			SealedObject sealed_id = CRCipher.encrypt(secret_key, id);
+			shi.logout(session_id, sealed_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -25,5 +25,6 @@ public interface ServerHostInterface extends Remote
 	public void setPlayer(int session_id, SealedObject sealed_id, SealedObject sealed_firstname, SealedObject sealed_lastname, SealedObject sealed_user_id, SealedObject sealed_password, SealedObject sealed_address, SealedObject sealed_phone, SealedObject sealed_email, SealedObject sealed_balance) throws RemoteException;
 	public void setUserID(int session_id, SealedObject sealed_id, SealedObject sealed_user_id) throws RemoteException;
 	
+	public void logout(int session_id, SealedObject sealed_id) throws RemoteException;
 	public void deleteSession(int session_id) throws RemoteException;
 }

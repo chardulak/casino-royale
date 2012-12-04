@@ -17,10 +17,8 @@ public class MainScreenModel {
 		session = s;
 	}
 	
-	
 	public boolean login(String usr, String pwd) throws RemoteException{
 		return session.login(usr, pwd);
-		
 	}
 	
 	public void register(){

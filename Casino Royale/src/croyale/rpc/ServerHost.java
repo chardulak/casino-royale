@@ -222,6 +222,21 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		}
 	}
 	
+	public void logout(int session_id, SealedObject sealed_id)
+	{
+		System.out.println("Calling logout method for session " + session_id);
+		try {
+			active_sessions.get(new Integer(session_id)).logout(sealed_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeActiveID(int id)
+	{
+		active_ids.remove(id);
+	}
+	
 	public void deleteSession(int session_id) throws RemoteException
 	{
 		System.out.println("Calling deleteSession method for session " + session_id);
