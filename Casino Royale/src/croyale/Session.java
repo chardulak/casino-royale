@@ -42,7 +42,11 @@ public class Session {
 	}
 	
 	public void logout(){
-		close();
+		try {
+			cs.setBalance(UserID, Double.toString(balance));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		UserID = 0;
 		userName = "";
 		userBalance = "0";
