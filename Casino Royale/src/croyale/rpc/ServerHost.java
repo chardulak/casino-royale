@@ -3,10 +3,12 @@ package croyale.rpc;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
+import croyale.Constants;
 import croyale.db.Database;
 import croyale.security.keyagreement.DHKeyAgreement;
 import croyale.server.ClientSession;
@@ -20,6 +22,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 	private Database db;
 	private int session_count;
 	private Hashtable<Integer, ClientSession> active_sessions = new Hashtable<Integer, ClientSession>();
+	private Vector<Integer> active_ids = new Vector<Integer>();
 	
 	public ServerHost(Database db) throws RemoteException
 	{
@@ -27,6 +30,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		this.db = db;
 		session_count = 0;
 		active_sessions.clear();
+		active_ids.clear();
 	}
 	
 	public int createSession() throws RemoteException
@@ -48,7 +52,6 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		}
 	}
 	
-	// Uses the public key from the client to generate a shared secret key
 	public byte[] doKeyAgree(int session_id, byte[] client_key) throws RemoteException
 	{
 		System.out.println("Calling doKeyAgree method for session " + session_id);
@@ -67,7 +70,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 			
 			if( session != null )
 			{
-				session.setSecretKey(secret_key);
+				session.setSecretKey(this, secret_key);
 				return public_key;
 			}
 			else
@@ -88,6 +91,22 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		} catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	// used by ClientSession
+	// returns USER_LOGGED_IN if id is already in active_ids
+	// otherwise returns ID_AVAILABLE
+	public int addActiveID(int id)
+	{
+		if( active_ids.contains(id) )
+		{
+			return USER_LOGGED_IN;
+		}
+		else
+		{
+			active_ids.add(id);
+			return ID_AVAILABLE;
 		}
 	}
 	

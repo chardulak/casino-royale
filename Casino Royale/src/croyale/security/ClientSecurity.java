@@ -5,13 +5,14 @@ import java.rmi.RemoteException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
+import croyale.Constants;
 import croyale.util.Player;
 import croyale.rpc.ServerHostInterface;
 import croyale.security.digest.SHA256Digest;
 import croyale.security.keyagreement.DHKeyAgreement;
 import croyale.util.ToHexString;
 
-public class ClientSecurity
+public class ClientSecurity implements Constants
 {
 	private ServerHostInterface shi;
 	private SecretKey secret_key;

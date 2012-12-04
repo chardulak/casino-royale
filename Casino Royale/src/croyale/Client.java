@@ -3,7 +3,6 @@ package croyale;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import croyale.rpc.Constants;
 import croyale.rpc.ServerHostInterface;
 import croyale.screen.main.MainScreenMVC;
 import croyale.security.ClientSecurity;

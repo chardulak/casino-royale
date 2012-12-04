@@ -11,11 +11,14 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
+import croyale.Constants;
 import croyale.db.Database;
+import croyale.rpc.ServerHost;
 import croyale.security.CRCipher;
 
 public class ClientSession implements Constants
 {
+	private ServerHost server_host;
 	private Database db;
 	private SecretKey secret_key;
 	
@@ -24,8 +27,9 @@ public class ClientSession implements Constants
 		this.db = db;
 	}
 	
-	public void setSecretKey(SecretKey secret_key)
+	public void setSecretKey(ServerHost server_host, SecretKey secret_key)
 	{
+		this.server_host = server_host;
 		this.secret_key = secret_key;
 	}
 	
@@ -36,15 +40,22 @@ public class ClientSession implements Constants
 		
 		System.out.println("\tID: " + user_id + " Password: " + password);
 		
-		int ret;
+		int id;
 		try {
-			ret = db.checkPlayer(user_id, password);
+			id = db.checkPlayer(user_id, password);
+			int check = server_host.addActiveID(id);
+			if( check == USER_LOGGED_IN )
+			{
+				id = check;
+				System.out.println("\tUser already logged in");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret = USER_DNE;
+			id = USER_DNE;
+			System.out.println("\tUser does not exist");
 		}
 		
-		return CRCipher.encrypt(secret_key, ret);
+		return CRCipher.encrypt(secret_key, id);
 	}
 	
 	public SealedObject getPlayer(SealedObject sealed_id) throws InvalidKeyException, ClassNotFoundException, NoSuchAlgorithmException, IOException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchPaddingException, SQLException
