@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
+import croyale.screen.password.PasswordWindow;
 import croyale.screen.registration.RegistrationWindow;
 import croyale.security.ClientSecurity;
 import croyale.util.FormatUtility;
@@ -15,9 +16,10 @@ import croyale.util.Player;
 
 public class Session {
 
-	private ClientSecurity cs;
-	private int UserID;
-	private String userName;
+	public ClientSecurity cs;
+	public int UserID;
+	public String userName;
+	public String userIDString;
 	private String userBalance;
 	private double balance;
 	
@@ -28,6 +30,7 @@ public class Session {
 	}
 	
 	public boolean login(String usr, String pwd) throws RemoteException{
+		userIDString = usr;
 		UserID = cs.checkPlayer(usr, pwd);
 		if(UserID > 0){
 			int login_status = cs.login(UserID);
@@ -50,7 +53,8 @@ public class Session {
 		}
 		else if (UserID == Constants.USER_DNE){
 
-			JOptionPane.showMessageDialog(null,"User does not exist.\n" +
+			JOptionPane.showMessageDialog(null,"Password incorrect, or \n" +
+					"User does not exist.\n" +
 					"Please register first!",
 					"Login Error", 
 					JOptionPane.ERROR_MESSAGE);
@@ -88,6 +92,11 @@ public class Session {
 	public void updateUserInfo(){
 		RegistrationWindow rw = new RegistrationWindow(UserID, cs, this);
 		rw.setVisible(true);
+	}
+	
+	public void changePassword(){
+		PasswordWindow pw = new PasswordWindow(this);
+		pw.setVisible(true);
 	}
 	
 	public String getUserName(){

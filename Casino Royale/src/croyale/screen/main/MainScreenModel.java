@@ -29,6 +29,10 @@ public class MainScreenModel {
 		session.updateUserInfo();
 	}
 	
+	public void changePassword(){
+		session.changePassword();
+	}
+	
 	public void logout(){
 		session.logout();
 	}

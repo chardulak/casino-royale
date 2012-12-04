@@ -30,6 +30,7 @@ public class MainScreenView extends JFrame {
 	private JButton logoutButton;
 	private JButton slotmachineButton;
 	private JButton blackjackButton;
+	private JButton changePasswordButton;
 	
 	protected JTextField UserIDBox;
 	protected JTextField PasswordBox;
@@ -129,12 +130,26 @@ public class MainScreenView extends JFrame {
 		accountInfoBox.setMaximumSize(new Dimension(190,150));
 		accountInfoBox.setOpaque(true);
 		
+		JPanel accountTextM = new JPanel();
+		accountTextM.setLayout(new BoxLayout(accountTextM,BoxLayout.X_AXIS));
+		accountTextM.setOpaque(false);
+		JPanel accountTextS = new JPanel();
+		accountTextS.setLayout(new BoxLayout(accountTextS,BoxLayout.Y_AXIS));
+		accountTextS.setOpaque(false);
+		
 		JLabel accountInfoBoxTitle = new JLabel("Account Info");
-		accountInfoBox.add(accountInfoBoxTitle);
+		accountTextS.add(accountInfoBoxTitle);
 		nameText = new JLabel("Name:");
-		accountInfoBox.add(nameText);
+		accountTextS.add(nameText);
 		balanceText = new JLabel("Balance:");
-		accountInfoBox.add(balanceText);
+		accountTextS.add(balanceText);
+		
+		accountTextM.add(accountTextS);
+		accountTextM.add(Box.createHorizontalStrut(90));
+		
+		accountInfoBox.add(accountTextM);
+
+		accountInfoBox.add(Box.createVerticalStrut(5));
 		accountInfoBox.add(Box.createVerticalGlue());
 		
 		JPanel updateBox = new JPanel();
@@ -144,7 +159,16 @@ public class MainScreenView extends JFrame {
 		updateBox.add(Box.createHorizontalStrut(20));
 		updateBox.add(updateButton);
 		accountInfoBox.add(updateBox);
-		accountInfoBox.add(Box.createVerticalStrut(20));
+		accountInfoBox.add(Box.createVerticalStrut(7));
+		
+		JPanel changePasswordBox = new JPanel();
+		changePasswordBox.setLayout(new BoxLayout(changePasswordBox,BoxLayout.X_AXIS));
+		changePasswordBox.setOpaque(false);
+		changePasswordButton = new JButton("Change Password");
+		changePasswordBox.add(Box.createHorizontalStrut(20));
+		changePasswordBox.add(changePasswordButton);
+		accountInfoBox.add(changePasswordBox);
+		accountInfoBox.add(Box.createVerticalStrut(7));
 		
 		JPanel logoutBox = new JPanel();
 		logoutBox.setLayout(new BoxLayout(logoutBox,BoxLayout.X_AXIS));
@@ -214,6 +238,9 @@ public class MainScreenView extends JFrame {
 	}
 	public void addUpdateListener(ActionListener nal) {
 		updateButton.addActionListener(nal);
+	}
+	public void addChangePasswordListener(ActionListener nal) {
+		changePasswordButton.addActionListener(nal);
 	}
 	public void addSlotMachineListener(ActionListener nal) {
 		slotmachineButton.addActionListener(nal);

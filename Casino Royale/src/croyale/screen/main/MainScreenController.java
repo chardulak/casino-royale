@@ -42,6 +42,7 @@ public class MainScreenController {
 					view.drawGameScreen();
 					view.addLogoutListener(new LogoutListener());
 					view.addUpdateListener(new UpdateListener());
+					view.addChangePasswordListener(new ChangePasswordListener());
 					view.addBlackJackListener(new BlackJackListener());
 					view.addSlotMachineListener(new SlotMachineListener());
 					
@@ -84,6 +85,15 @@ public class MainScreenController {
 			
 		}
 	}
+	
+	private class ChangePasswordListener implements ActionListener{
+			
+		public void actionPerformed(ActionEvent e) {
+			model.changePassword();
+			
+		}
+	}
+	
 	
 	private class BlackJackListener implements ActionListener{
 			
