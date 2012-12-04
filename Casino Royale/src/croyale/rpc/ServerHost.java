@@ -234,7 +234,7 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 	
 	public void removeActiveID(int id)
 	{
-		active_ids.remove(id);
+		active_ids.remove(new Integer(id));
 	}
 	
 	public void deleteSession(int session_id) throws RemoteException
