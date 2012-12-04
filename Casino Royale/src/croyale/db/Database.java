@@ -38,12 +38,6 @@ public class Database {
 		}
 		return id;
 	}
-//	public java.sql.ResultSet getPlayer(int _id)throws SQLException{
-//		CallableStatement cmst = conn.prepareCall("{call getPlayer(?)}");
-//		cmst.setInt(1,_id);
-//		cmst.execute();
-//		return cmst.getResultSet();
-//	}
 	public Player getPlayer(int _id)throws SQLException{
 		CallableStatement cmst = conn.prepareCall("{call getPlayer(?)}");
 		cmst.setInt(1,_id);

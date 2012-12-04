@@ -105,9 +105,6 @@ public class ServerHost extends UnicastRemoteObject implements ServerHostInterfa
 		}
 	}
 	
-	// used by ClientSession
-	// returns USER_LOGGED_IN if id is already in active_ids
-	// otherwise returns ID_AVAILABLE
 	public int addActiveID(int id)
 	{
 		if( active_ids.contains(id) )

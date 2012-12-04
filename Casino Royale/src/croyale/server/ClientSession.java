@@ -43,12 +43,6 @@ public class ClientSession implements Constants
 		int id;
 		try {
 			id = db.checkPlayer(user_id, password);
-//			int check = server_host.addActiveID(id);
-//			if( check == USER_LOGGED_IN )
-//			{
-//				id = check;
-//				System.out.println("\tUser already logged in");
-//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			id = USER_DNE;
